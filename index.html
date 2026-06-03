@@ -32,17 +32,17 @@
     header {
       background: var(--primary);
       color: #fff;
-      padding: 22px 24px 19px;
+      padding: 12px 24px 10px;
       text-align: center;
     }
     header .logo {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 900;
       letter-spacing: 3px;
-      margin-bottom: 5px;
+      margin-bottom: 2px;
     }
     header .tagline {
-      font-size: 15px;
+      font-size: 13px;
       opacity: 0.88;
       letter-spacing: 0.5px;
     }
@@ -476,6 +476,105 @@
       border-bottom: 1px solid #2E2E2E !important;
     }
 
+    /* ── Popup overlay ─────────────────────────────────────── */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .popup-box {
+      width: 70%;
+      max-width: 400px;
+      height: 80vh;
+      max-height: 580px;
+      background: #1A1A1A;
+      border: 1px solid #FF3B00;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* 슬림 로고 바 */
+    .popup-top {
+      background: var(--primary);
+      padding: 7px 16px 6px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .popup-logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #fff;
+    }
+    /* 랜덤 배경 이미지 영역 */
+    .popup-img-area {
+      width: 100%;
+      height: 160px;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+      background-color: #222;
+    }
+    .popup-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 20px 10px;
+      text-align: center;
+      overflow-y: auto;
+    }
+    .popup-msg {
+      font-size: 14px;
+      color: #CCCCCC;
+      line-height: 1.9;
+      margin-bottom: 12px;
+    }
+    .popup-sign {
+      font-size: 13px;
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+    .popup-actions {
+      padding: 12px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .popup-btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .popup-btn-primary:hover { background: var(--primary-dark); }
+    .popup-btn-secondary {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--text-sub);
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .popup-btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
     /* ── Mobile (≤480px) ───────────────────────────────────── */
     @media (max-width: 480px) {
       body { font-size: 15px; }
@@ -533,8 +632,14 @@
       /* 체크 항목 */
       .check-item { font-size: 14px; padding: 9px 12px; }
 
-      /* 라디오 */
-      .radio-btn { font-size: 14px; padding: 7px 14px; }
+      /* 라디오 — 한 줄 유지, 폰트·패딩 압축 */
+      .radio-grid { gap: 6px; flex-wrap: nowrap; }
+      .radio-btn { font-size: 12px; padding: 6px 9px; white-space: nowrap; flex: 1; text-align: center; }
+
+      /* 사용경험 체크 리스트 세로 여백 */
+      .check-item { padding: 7px 10px; font-size: 13px; }
+      .check-grid { gap: 7px; }
+      #cook-types .check-item { min-height: unset; }
 
       /* 종합 평점 */
       .overall-score .value { font-size: 26px; }
@@ -690,6 +795,24 @@
   </style>
 </head>
 <body>
+
+<!-- Popup -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-box" id="popup-box">
+    <div class="popup-top">
+      <div class="popup-logo">CLICLIC</div>
+    </div>
+    <div class="popup-img-area" id="popup-img-area"></div>
+    <div class="popup-body">
+      <p class="popup-msg">제가 불편해서 만들었고,<br>여러분의 불편함으로 더 좋아집니다.<br><br>좋았던 것도, 아쉬웠던 것도<br>모두 솔직하게 남겨주세요.<br>그게 다음 CLICLIC을 만드는 재료입니다.</p>
+      <p class="popup-sign">— 개발자 드림</p>
+    </div>
+    <div class="popup-actions">
+      <button class="popup-btn-primary" onclick="popupAction('write')">✏️ 후기 작성하기</button>
+      <button class="popup-btn-secondary" onclick="popupAction('list')">📋 후기 둘러보기</button>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="logo">CLICLIC</div>
@@ -1036,6 +1159,42 @@
 </main>
 
 <script>
+  // ── Popup ─────────────────────────────────────────────────────
+  const popupImages = [
+    'Gemini_Generated_Image_3kf0653kf0653kf0.png',
+    'Gemini_Generated_Image_74c4ae74c4ae74c4.png',
+    'Gemini_Generated_Image_a9kqg6a9kqg6a9kq.png',
+    'Gemini_Generated_Image_ahgk87ahgk87ahgk.png',
+    'Gemini_Generated_Image_bnn7jmbnn7jmbnn7.png',
+    'Gemini_Generated_Image_e4rmwde4rmwde4rm.png',
+    'Gemini_Generated_Image_ghsoqlghsoqlghso.png',
+    'Gemini_Generated_Image_gvqwmqgvqwmqgvqw.png',
+    'Gemini_Generated_Image_me70cgme70cgme70.png',
+    'Gemini_Generated_Image_o85q8oo85q8oo85q.png',
+    'Gemini_Generated_Image_pxmynrpxmynrpxmy.png',
+    'Gemini_Generated_Image_uqx84wuqx84wuqx8.png',
+    'Gemini_Generated_Image_v81ht5v81ht5v81h.png',
+    'Gemini_Generated_Image_vaz1ixvaz1ixvaz1.png',
+    'Gemini_Generated_Image_x2nkg0x2nkg0x2nk.png',
+  ];
+
+  (function initPopupImage() {
+    const img = popupImages[Math.floor(Math.random() * popupImages.length)];
+    const el = document.getElementById('popup-img-area');
+    el.style.backgroundImage = `url('${img}')`;
+  })();
+
+  function popupAction(action) {
+    document.getElementById('popup-overlay').style.display = 'none';
+    if (action === 'list') {
+      document.getElementById('review-form').style.display = 'none';
+      document.querySelector('.progress-wrap').style.display = 'none';
+      document.getElementById('list-screen').style.display = 'block';
+      renderList();
+    }
+    // 'write': 기본 폼 상태 유지
+  }
+
   // ── Photo upload ──────────────────────────────────────────────
   const photoData = { 'preview-product': [], 'preview-food': [] };
 
