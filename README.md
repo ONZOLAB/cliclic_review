@@ -1,1 +1,975 @@
-# cliclic_review
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLICLIC 체험단 평가</title>
+  <style>
+    :root {
+      --primary: #E85C2C;
+      --primary-dark: #C44A1E;
+      --bg: #FAF9F7;
+      --card: #FFFFFF;
+      --border: #E0DDD8;
+      --text: #1A1A1A;
+      --text-sub: #6B6460;
+      --star-on: #F5A623;
+      --star-off: #D8D3CE;
+      --success: #2E7D52;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* Header */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 28px 24px 24px;
+      text-align: center;
+    }
+    header .logo {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+    header .tagline {
+      font-size: 15px;
+      opacity: 0.88;
+      letter-spacing: 0.5px;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .progress-label {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+    .progress-bar {
+      background: var(--border);
+      border-radius: 99px;
+      height: 6px;
+    }
+    .progress-fill {
+      background: var(--primary);
+      border-radius: 99px;
+      height: 6px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* Main */
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    /* Section card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title .icon {
+      font-size: 22px;
+    }
+    .step-badge {
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      padding: 2px 10px;
+      margin-left: auto;
+    }
+
+    /* Form elements */
+    label.field-label {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    label.field-label .req {
+      color: var(--primary);
+      margin-left: 3px;
+    }
+    .hint {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      background: #FAFAF9;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    /* Two columns */
+    .col2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 480px) { .col2 { grid-template-columns: 1fr; } }
+
+    /* Star rating */
+    .star-group {
+      margin-bottom: 22px;
+    }
+    .star-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    .star-row-label {
+      font-size: 15px;
+      font-weight: 600;
+      min-width: 120px;
+    }
+    .stars {
+      display: flex;
+      gap: 6px;
+    }
+    .stars span {
+      font-size: 30px;
+      cursor: pointer;
+      color: var(--star-off);
+      transition: color 0.15s, transform 0.1s;
+      user-select: none;
+      line-height: 1;
+    }
+    .stars span.on { color: var(--star-on); }
+    .stars span:hover { transform: scale(1.15); }
+    .star-score {
+      font-size: 14px;
+      color: var(--text-sub);
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* Overall score display */
+    .overall-score {
+      background: #FFF8F0;
+      border: 1.5px solid #F5A623;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+    .overall-score .label { font-size: 15px; font-weight: 600; }
+    .overall-score .value {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--star-on);
+    }
+    .overall-score .max { font-size: 14px; color: var(--text-sub); }
+
+    /* Photo upload */
+    .photo-upload-area {
+      border: 2.5px dashed var(--border);
+      border-radius: 14px;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: #FAFAF9;
+      position: relative;
+    }
+    .photo-upload-area:hover {
+      border-color: var(--primary);
+      background: #FFF5F2;
+    }
+    .photo-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-icon { font-size: 48px; margin-bottom: 10px; }
+    .upload-text {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .upload-sub {
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    /* Photo preview grid */
+    .photo-preview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--border);
+    }
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .preview-item .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .photo-count {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    /* Usage checklist */
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 480px) { .check-grid { grid-template-columns: 1fr; } }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      font-size: 15px;
+    }
+    .check-item input[type="checkbox"] { display: none; }
+    .check-item .box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 5px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+    .check-item.checked {
+      border-color: var(--primary);
+      background: #FFF5F2;
+    }
+    .check-item.checked .box {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Radio buttons */
+    .radio-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .radio-btn {
+      padding: 10px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .radio-btn input { display: none; }
+    .radio-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* NPS */
+    .nps-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .nps-btn {
+      flex: 1;
+      min-width: 38px;
+      padding: 10px 4px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .nps-btn:hover { border-color: var(--primary); }
+    .nps-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .nps-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 8px;
+    }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.5px;
+    }
+    .submit-btn:hover { background: var(--primary-dark); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled {
+      background: #C8C3BE;
+      cursor: not-allowed;
+    }
+
+    /* Success screen */
+    #success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+    }
+    #success-screen .check-circle {
+      width: 80px;
+      height: 80px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 24px;
+      color: #fff;
+    }
+    #success-screen h2 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    #success-screen p {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.8;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* Handle feature highlight */
+    .feature-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFF5F2;
+      border: 1px solid #F5C9B8;
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">CLICLIC</div>
+  <div class="tagline">체험단 제품 평가 설문 — 분리형 손잡이 쿡웨어</div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progress-label">섹션 1 / 5 — 기본 정보</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<main>
+  <form id="review-form">
+
+    <!-- SECTION 1: 기본 정보 -->
+    <div class="card" data-section="1">
+      <div class="card-title">
+        <span class="icon">👤</span> 기본 정보
+        <span class="step-badge">1 / 5</span>
+      </div>
+
+      <div class="col2">
+        <div class="field-group">
+          <label class="field-label">이름 <span class="req">*</span></label>
+          <input type="text" name="name" placeholder="홍길동" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">연락처 <span class="req">*</span></label>
+          <input type="tel" name="phone" placeholder="010-0000-0000" required>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">이메일</label>
+        <input type="email" name="email" placeholder="example@email.com">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">수령 제품 <span class="req">*</span></label>
+        <div class="hint">체험하신 제품을 선택해 주세요</div>
+        <select name="product" required>
+          <option value="">선택해 주세요</option>
+          <option>CLICLIC 프라이팬 20cm</option>
+          <option>CLICLIC 프라이팬 24cm</option>
+          <option>CLICLIC 프라이팬 28cm</option>
+          <option>CLICLIC 냄비 18cm</option>
+          <option>CLICLIC 냄비 22cm</option>
+          <option>CLICLIC 2종 세트 (프라이팬+냄비)</option>
+          <option>CLICLIC 3종 세트</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">체험 기간</label>
+        <div class="radio-grid">
+          <label class="radio-btn"><input type="radio" name="duration" value="1주 미만" onclick="selectRadio(this)">1주 미만</label>
+          <label class="radio-btn"><input type="radio" name="duration" value="1~2주" onclick="selectRadio(this)">1~2주</label>
+          <label class="radio-btn"><input type="radio" name="duration" value="2주~1개월" onclick="selectRadio(this)">2주~1개월</label>
+          <label class="radio-btn"><input type="radio" name="duration" value="1개월 이상" onclick="selectRadio(this)">1개월 이상</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: 사진 업로드 -->
+    <div class="card" data-section="2">
+      <div class="card-title">
+        <span class="icon">📸</span> 사진 업로드
+        <span class="step-badge">2 / 5</span>
+      </div>
+
+      <div class="feature-badge">📌 실제 사용 사진을 올려주시면 리뷰가 훨씬 생생해집니다!</div>
+
+      <div class="field-group">
+        <label class="field-label">제품 사진</label>
+        <div class="hint">제품 전체, 손잡이 부착/분리 상태, 실제 요리 사진 등 (최대 6장, JPG/PNG)</div>
+        <div class="photo-upload-area" id="upload-area-1">
+          <input type="file" id="photo-product" accept="image/*" multiple onchange="handlePhotos(this, 'preview-product', 6)">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">클릭하여 사진 업로드</div>
+          <div class="upload-sub">또는 사진을 여기로 드래그</div>
+        </div>
+        <div class="photo-preview" id="preview-product"></div>
+        <div class="photo-count" id="count-product"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="field-group">
+        <label class="field-label">요리 결과 사진</label>
+        <div class="hint">완성된 요리 사진을 자유롭게 올려주세요 (최대 6장)</div>
+        <div class="photo-upload-area" id="upload-area-2">
+          <input type="file" id="photo-food" accept="image/*" multiple onchange="handlePhotos(this, 'preview-food', 6)">
+          <div class="upload-icon">🍳</div>
+          <div class="upload-text">요리 사진 업로드</div>
+          <div class="upload-sub">맛있는 결과물을 보여주세요!</div>
+        </div>
+        <div class="photo-preview" id="preview-food"></div>
+        <div class="photo-count" id="count-food"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: 항목별 평가 -->
+    <div class="card" data-section="3">
+      <div class="card-title">
+        <span class="icon">⭐</span> 항목별 평가
+        <span class="step-badge">3 / 5</span>
+      </div>
+
+      <div class="hint" style="margin-bottom:20px;">별점을 클릭해 각 항목을 평가해 주세요 (1~5점)</div>
+
+      <div class="star-group" id="star-group">
+        <!-- 손잡이 관련 -->
+        <div class="star-row" data-key="handle_attach">
+          <span class="star-row-label">🔗 손잡이 탈부착</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="star-row" data-key="handle_grip">
+          <span class="star-row-label">✋ 손잡이 그립감</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="star-row" data-key="handle_stability">
+          <span class="star-row-label">⚖️ 무게 균형</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="divider"></div>
+        <!-- 제품 관련 -->
+        <div class="star-row" data-key="coating">
+          <span class="star-row-label">🍳 코팅 성능</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="star-row" data-key="heat">
+          <span class="star-row-label">🔥 열 전달력</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="star-row" data-key="clean">
+          <span class="star-row-label">🧹 세척 편의성</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="star-row" data-key="design">
+          <span class="star-row-label">✨ 디자인/외관</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+        <div class="star-row" data-key="storage">
+          <span class="star-row-label">🗄️ 수납 편의성</span>
+          <div class="stars">
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+            <span onclick="setStars(this)">★</span>
+          </div>
+          <span class="star-score">-</span>
+        </div>
+      </div>
+
+      <div class="overall-score">
+        <span class="label">⭐ 종합 평점</span>
+        <span><span class="value" id="avg-score">—</span> <span class="max">/ 5.0</span></span>
+      </div>
+    </div>
+
+    <!-- SECTION 4: 사용 경험 -->
+    <div class="card" data-section="4">
+      <div class="card-title">
+        <span class="icon">📝</span> 사용 경험
+        <span class="step-badge">4 / 5</span>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">주로 사용하신 요리는? (중복 가능)</label>
+        <div class="check-grid" id="cook-types">
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="cook_type" value="볶음·炒">
+            <span class="box"></span> 볶음요리
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="cook_type" value="구이·焼">
+            <span class="box"></span> 구이·프라이
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="cook_type" value="찌개·국">
+            <span class="box"></span> 찌개·국
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="cook_type" value="계란요리">
+            <span class="box"></span> 계란요리
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="cook_type" value="파스타·면">
+            <span class="box"></span> 파스타·면
+          </label>
+          <label class="check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" name="cook_type" value="베이킹·오븐">
+            <span class="box"></span> 베이킹·오븐
+          </label>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="field-group">
+        <label class="field-label">손잡이 분리 기능, 실제로 활용하셨나요? <span class="req">*</span></label>
+        <div class="radio-grid">
+          <label class="radio-btn"><input type="radio" name="handle_use" value="자주 활용" onclick="selectRadio(this)">자주 활용</label>
+          <label class="radio-btn"><input type="radio" name="handle_use" value="가끔 활용" onclick="selectRadio(this)">가끔 활용</label>
+          <label class="radio-btn"><input type="radio" name="handle_use" value="거의 미활용" onclick="selectRadio(this)">거의 미활용</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">가장 좋았던 점</label>
+        <textarea name="pros" placeholder="예: 손잡이를 분리하니 오븐에 바로 넣을 수 있어서 편했어요. 세척도 훨씬 쉬웠습니다."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">아쉬웠던 점 또는 개선 희망사항</label>
+        <textarea name="cons" placeholder="예: 손잡이 체결 시 클릭감이 조금 더 명확했으면 좋겠어요. 코팅이 더 내구성이 있었으면 합니다."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">자유 한마디</label>
+        <textarea name="free" placeholder="전반적인 소감, 브랜드에 전하고 싶은 메시지 등 자유롭게 작성해 주세요 😊" style="min-height:80px;"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 5: 추천 의향 -->
+    <div class="card" data-section="5">
+      <div class="card-title">
+        <span class="icon">💬</span> 추천 의향
+        <span class="step-badge">5 / 5</span>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">주변에 추천하실 의향이 있으신가요?</label>
+        <div class="hint">0 = 전혀 추천 안 함 &nbsp;|&nbsp; 10 = 매우 강력히 추천</div>
+        <div class="nps-row" id="nps-row">
+          <div class="nps-btn" onclick="setNPS(this, 0)">0</div>
+          <div class="nps-btn" onclick="setNPS(this, 1)">1</div>
+          <div class="nps-btn" onclick="setNPS(this, 2)">2</div>
+          <div class="nps-btn" onclick="setNPS(this, 3)">3</div>
+          <div class="nps-btn" onclick="setNPS(this, 4)">4</div>
+          <div class="nps-btn" onclick="setNPS(this, 5)">5</div>
+          <div class="nps-btn" onclick="setNPS(this, 6)">6</div>
+          <div class="nps-btn" onclick="setNPS(this, 7)">7</div>
+          <div class="nps-btn" onclick="setNPS(this, 8)">8</div>
+          <div class="nps-btn" onclick="setNPS(this, 9)">9</div>
+          <div class="nps-btn" onclick="setNPS(this, 10)">10</div>
+        </div>
+        <div class="nps-labels">
+          <span>추천 안 함</span>
+          <span>적극 추천!</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">재구매 의향</label>
+        <div class="radio-grid">
+          <label class="radio-btn"><input type="radio" name="repurchase" value="반드시 구매" onclick="selectRadio(this)">반드시 구매</label>
+          <label class="radio-btn"><input type="radio" name="repurchase" value="아마 구매" onclick="selectRadio(this)">아마 구매</label>
+          <label class="radio-btn"><input type="radio" name="repurchase" value="미정" onclick="selectRadio(this)">미정</label>
+          <label class="radio-btn"><input type="radio" name="repurchase" value="구매 안 함" onclick="selectRadio(this)">구매 안 함</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">SNS 포스팅 링크 (선택)</label>
+        <div class="hint">인스타그램, 블로그, 유튜브 등 업로드하신 후기 링크를 남겨주세요</div>
+        <input type="text" name="sns_link" placeholder="https://www.instagram.com/...">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">SNS 계정 (선택)</label>
+        <input type="text" name="sns_id" placeholder="@cliclic_fan (인스타그램 아이디 등)">
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="submit-btn" id="submit-btn">✉️ 평가 제출하기</button>
+
+  </form>
+
+  <!-- Success -->
+  <div id="success-screen">
+    <div class="check-circle">✓</div>
+    <h2>평가가 완료되었습니다!</h2>
+    <p>
+      소중한 체험 후기를 제출해 주셔서 감사합니다.<br>
+      <strong>CLICLIC</strong>이 더 좋은 제품으로 보답하겠습니다 🍳
+    </p>
+  </div>
+</main>
+
+<script>
+  // ── Photo upload ──────────────────────────────────────────────
+  const photoData = { 'preview-product': [], 'preview-food': [] };
+
+  function handlePhotos(input, previewId, maxCount) {
+    const files = Array.from(input.files);
+    const existing = photoData[previewId];
+    const remaining = maxCount - existing.length;
+    const toAdd = files.slice(0, remaining);
+
+    toAdd.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        existing.push({ src: e.target.result, name: file.name });
+        renderPreviews(previewId, maxCount);
+      };
+      reader.readAsDataURL(file);
+    });
+    input.value = '';
+    updateProgress();
+  }
+
+  function renderPreviews(previewId, maxCount) {
+    const container = document.getElementById(previewId);
+    const countEl = document.getElementById('count-' + previewId.split('-')[1]);
+    const arr = photoData[previewId];
+    container.innerHTML = arr.map((p, i) => `
+      <div class="preview-item">
+        <img src="${p.src}" alt="사진 ${i+1}">
+        <button class="remove-btn" type="button" onclick="removePhoto('${previewId}', ${i}, ${maxCount})">✕</button>
+      </div>
+    `).join('');
+    countEl.textContent = arr.length > 0 ? `${arr.length} / ${maxCount}장 업로드됨` : '';
+  }
+
+  function removePhoto(previewId, idx, maxCount) {
+    photoData[previewId].splice(idx, 1);
+    renderPreviews(previewId, maxCount);
+  }
+
+  // Drag-and-drop
+  document.querySelectorAll('.photo-upload-area').forEach(area => {
+    area.addEventListener('dragover', e => { e.preventDefault(); area.style.borderColor = 'var(--primary)'; });
+    area.addEventListener('dragleave', () => { area.style.borderColor = ''; });
+    area.addEventListener('drop', e => {
+      e.preventDefault();
+      area.style.borderColor = '';
+      const input = area.querySelector('input[type="file"]');
+      const previewId = input.id === 'photo-product' ? 'preview-product' : 'preview-food';
+      const dt = e.dataTransfer;
+      const fakeInput = { files: dt.files, value: '' };
+      handlePhotos({ files: Array.from(dt.files), value: '' }, previewId, 6);
+    });
+  });
+
+  // ── Star rating ──────────────────────────────────────────────
+  function setStars(clickedStar) {
+    const row = clickedStar.closest('.star-row');
+    const stars = row.querySelectorAll('.stars span');
+    const scoreEl = row.querySelector('.star-score');
+    const idx = Array.from(stars).indexOf(clickedStar);
+    stars.forEach((s, i) => s.classList.toggle('on', i <= idx));
+    const score = idx + 1;
+    scoreEl.textContent = score + '점';
+    row.dataset.score = score;
+    updateAvgScore();
+    updateProgress();
+  }
+
+  function updateAvgScore() {
+    const rows = document.querySelectorAll('#star-group .star-row[data-key]');
+    const scores = Array.from(rows).map(r => parseInt(r.dataset.score) || 0).filter(s => s > 0);
+    const avg = scores.length > 0 ? (scores.reduce((a,b) => a+b, 0) / scores.length).toFixed(1) : '—';
+    document.getElementById('avg-score').textContent = avg;
+  }
+
+  // ── Radio buttons ──────────────────────────────────────────────
+  function selectRadio(input) {
+    const name = input.name;
+    document.querySelectorAll(`input[type="radio"][name="${name}"]`).forEach(r => {
+      r.closest('.radio-btn').classList.toggle('selected', r === input);
+    });
+    updateProgress();
+  }
+
+  // ── Checkbox ──────────────────────────────────────────────────
+  function toggleCheck(label) {
+    label.classList.toggle('checked');
+    const cb = label.querySelector('input[type="checkbox"]');
+    cb.checked = label.classList.contains('checked');
+    const box = label.querySelector('.box');
+    box.textContent = cb.checked ? '✓' : '';
+  }
+
+  // ── NPS ──────────────────────────────────────────────────────
+  let npsValue = null;
+  function setNPS(btn, val) {
+    npsValue = val;
+    document.querySelectorAll('.nps-btn').forEach((b, i) => b.classList.toggle('selected', i === val));
+    updateProgress();
+  }
+
+  // ── Progress ─────────────────────────────────────────────────
+  function updateProgress() {
+    let filled = 0;
+    const total = 5;
+
+    // Section 1: name + product
+    if (document.querySelector('input[name="name"]').value.trim()) filled += 0.5;
+    if (document.querySelector('select[name="product"]').value) filled += 0.5;
+
+    // Section 2: photos
+    if (photoData['preview-product'].length > 0) filled += 1;
+
+    // Section 3: star ratings (at least 4 rated)
+    const rated = document.querySelectorAll('#star-group .star-row[data-score]').length;
+    if (rated >= 4) filled += 1;
+
+    // Section 4: pros/cons
+    if (document.querySelector('textarea[name="pros"]').value.trim().length > 5) filled += 0.5;
+    if (document.querySelector('input[name="handle_use"]:checked')) filled += 0.5;
+
+    // Section 5: NPS
+    if (npsValue !== null) filled += 1;
+
+    const pct = Math.round((filled / total) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+
+    const section = pct < 30 ? 1 : pct < 50 ? 2 : pct < 70 ? 3 : pct < 85 ? 4 : 5;
+    const labels = ['기본 정보', '사진 업로드', '항목별 평가', '사용 경험', '추천 의향'];
+    document.getElementById('progress-label').textContent = `섹션 ${section} / 5 — ${labels[section-1]} (${pct}% 완료)`;
+  }
+
+  // Input listeners for progress
+  document.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"], select, textarea')
+    .forEach(el => el.addEventListener('input', updateProgress));
+
+  // ── Form submit ──────────────────────────────────────────────
+  document.getElementById('review-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.querySelector('input[name="name"]').value.trim();
+    const product = document.querySelector('select[name="product"]').value;
+
+    if (!name) { alert('이름을 입력해 주세요.'); return; }
+    if (!product) { alert('수령 제품을 선택해 주세요.'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    // Simulate submission
+    setTimeout(() => {
+      document.getElementById('review-form').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+      document.querySelector('.progress-wrap').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 800);
+  });
+</script>
+</body>
+</html>
