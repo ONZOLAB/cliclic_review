@@ -5,15 +5,16 @@
   <title>CLICLIC 체험단 평가</title>
   <style>
     :root {
-      --primary: #E85C2C;
-      --primary-dark: #C44A1E;
-      --bg: #FAF9F7;
-      --card: #FFFFFF;
-      --border: #E0DDD8;
-      --text: #1A1A1A;
-      --text-sub: #6B6460;
-      --star-on: #F5A623;
-      --star-off: #D8D3CE;
+      --primary: #FF3B00;
+      --primary-dark: #CC2E00;
+      --primary-light: #FF6633;
+      --bg: #111111;
+      --card: #1A1A1A;
+      --border: #2E2E2E;
+      --text: #F0F0F0;
+      --text-sub: #888888;
+      --star-on: #FF3B00;
+      --star-off: #333333;
       --success: #2E7D52;
     }
 
@@ -31,14 +32,14 @@
     header {
       background: var(--primary);
       color: #fff;
-      padding: 28px 24px 24px;
+      padding: 22px 24px 19px;
       text-align: center;
     }
     header .logo {
       font-size: 32px;
       font-weight: 900;
       letter-spacing: 3px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     header .tagline {
       font-size: 15px;
@@ -50,7 +51,7 @@
     .progress-wrap {
       background: #fff;
       border-bottom: 1px solid var(--border);
-      padding: 14px 24px;
+      padding: 11px 24px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -77,21 +78,21 @@
     main {
       max-width: 680px;
       margin: 0 auto;
-      padding: 28px 20px 80px;
+      padding: 22px 20px 64px;
     }
 
     /* Section card */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px;
-      margin-bottom: 20px;
+      border-radius: 8px;
+      padding: 22px 24px;
+      margin-bottom: 16px;
     }
     .card-title {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -114,7 +115,7 @@
       display: block;
       font-size: 16px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: var(--text);
     }
     label.field-label .req {
@@ -133,27 +134,28 @@
     select,
     textarea {
       width: 100%;
-      padding: 14px 16px;
+      padding: 11px 16px;
       border: 1.5px solid var(--border);
-      border-radius: 10px;
+      border-radius: 5px;
       font-size: 16px;
       font-family: inherit;
       color: var(--text);
-      background: #FAFAF9;
+      background: #222222;
       transition: border-color 0.2s;
       outline: none;
     }
     input:focus, select:focus, textarea:focus {
       border-color: var(--primary);
-      background: #fff;
+      background: #2A2A2A;
     }
+    select option { background: #1A1A1A; color: #F0F0F0; }
     textarea {
       resize: vertical;
       min-height: 110px;
     }
 
     .field-group {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     /* Two columns */
@@ -163,16 +165,17 @@
       gap: 14px;
     }
     @media (max-width: 480px) { .col2 { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) { .photo-split { grid-template-columns: 1fr !important; } }
 
     /* Star rating */
     .star-group {
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
     .star-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       gap: 10px;
     }
     .star-row-label {
@@ -203,37 +206,37 @@
 
     /* Overall score display */
     .overall-score {
-      background: #FFF8F0;
-      border: 1.5px solid #F5A623;
-      border-radius: 12px;
-      padding: 16px 20px;
+      background: #1F0A00;
+      border: 1.5px solid var(--primary);
+      border-radius: 6px;
+      padding: 13px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 6px;
+      margin-top: 5px;
     }
     .overall-score .label { font-size: 15px; font-weight: 600; }
     .overall-score .value {
       font-size: 32px;
       font-weight: 900;
-      color: var(--star-on);
+      color: var(--primary);
     }
     .overall-score .max { font-size: 14px; color: var(--text-sub); }
 
     /* Photo upload */
     .photo-upload-area {
       border: 2.5px dashed var(--border);
-      border-radius: 14px;
-      padding: 36px 20px;
+      border-radius: 7px;
+      padding: 29px 20px;
       text-align: center;
       cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
-      background: #FAFAF9;
+      background: #222222;
       position: relative;
     }
     .photo-upload-area:hover {
       border-color: var(--primary);
-      background: #FFF5F2;
+      background: #1F0A00;
     }
     .photo-upload-area input[type="file"] {
       position: absolute;
@@ -243,12 +246,12 @@
       width: 100%;
       height: 100%;
     }
-    .upload-icon { font-size: 48px; margin-bottom: 10px; }
+    .upload-icon { font-size: 48px; margin-bottom: 8px; }
     .upload-text {
       font-size: 17px;
       font-weight: 600;
       color: var(--text);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     .upload-sub {
       font-size: 14px;
@@ -260,12 +263,12 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 11px;
     }
     .preview-item {
       position: relative;
       aspect-ratio: 1;
-      border-radius: 10px;
+      border-radius: 5px;
       overflow: hidden;
       background: var(--border);
     }
@@ -294,7 +297,7 @@
     .photo-count {
       font-size: 13px;
       color: var(--text-sub);
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: right;
     }
 
@@ -310,9 +313,9 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 12px 14px;
+      padding: 10px 14px;
       border: 1.5px solid var(--border);
-      border-radius: 10px;
+      border-radius: 5px;
       cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
       font-size: 15px;
@@ -322,7 +325,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid var(--border);
-      border-radius: 5px;
+      border-radius: 3px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -332,7 +335,7 @@
     }
     .check-item.checked {
       border-color: var(--primary);
-      background: #FFF5F2;
+      background: #1F0A00;
     }
     .check-item.checked .box {
       background: var(--primary);
@@ -347,7 +350,7 @@
       gap: 10px;
     }
     .radio-btn {
-      padding: 10px 18px;
+      padding: 8px 18px;
       border: 1.5px solid var(--border);
       border-radius: 99px;
       cursor: pointer;
@@ -372,9 +375,9 @@
     .nps-btn {
       flex: 1;
       min-width: 38px;
-      padding: 10px 4px;
+      padding: 8px 4px;
       border: 1.5px solid var(--border);
-      border-radius: 8px;
+      border-radius: 4px;
       text-align: center;
       cursor: pointer;
       font-size: 15px;
@@ -392,17 +395,17 @@
       justify-content: space-between;
       font-size: 13px;
       color: var(--text-sub);
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     /* Submit button */
     .submit-btn {
       width: 100%;
-      padding: 18px;
+      padding: 14px;
       background: var(--primary);
       color: #fff;
       border: none;
-      border-radius: 14px;
+      border-radius: 7px;
       font-size: 18px;
       font-weight: 700;
       cursor: pointer;
@@ -412,7 +415,7 @@
     .submit-btn:hover { background: var(--primary-dark); }
     .submit-btn:active { transform: scale(0.98); }
     .submit-btn:disabled {
-      background: #C8C3BE;
+      background: #444444;
       cursor: not-allowed;
     }
 
@@ -420,7 +423,7 @@
     #success-screen {
       display: none;
       text-align: center;
-      padding: 60px 24px;
+      padding: 48px 24px;
     }
     #success-screen .check-circle {
       width: 80px;
@@ -431,13 +434,13 @@
       align-items: center;
       justify-content: center;
       font-size: 40px;
-      margin: 0 auto 24px;
+      margin: 0 auto 19px;
       color: #fff;
     }
     #success-screen h2 {
       font-size: 26px;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     #success-screen p {
       font-size: 16px;
@@ -449,7 +452,7 @@
     .divider {
       height: 1px;
       background: var(--border);
-      margin: 20px 0;
+      margin: 16px 0;
     }
 
     /* Handle feature highlight */
@@ -457,15 +460,233 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #FFF5F2;
-      border: 1px solid #F5C9B8;
+      background: #1F0A00;
+      border: 1px solid var(--primary);
       border-radius: 99px;
       padding: 5px 14px;
       font-size: 13px;
       font-weight: 600;
-      color: var(--primary-dark);
-      margin-bottom: 16px;
+      color: var(--primary-light);
+      margin-bottom: 13px;
     }
+
+    /* Progress wrap dark */
+    .progress-wrap {
+      background: #1A1A1A !important;
+      border-bottom: 1px solid #2E2E2E !important;
+    }
+
+    /* ── Mobile (≤480px) ───────────────────────────────────── */
+    @media (max-width: 480px) {
+      body { font-size: 15px; }
+
+      header { padding: 18px 16px 15px; }
+      header .logo { font-size: 26px; letter-spacing: 2px; }
+      header .tagline { font-size: 13px; }
+
+      .progress-wrap { padding: 9px 16px; }
+
+      main { padding: 16px 12px 56px; }
+
+      .card { padding: 16px 14px; border-radius: 6px; margin-bottom: 12px; }
+      .card-title { font-size: 17px; margin-bottom: 12px; }
+
+      label.field-label { font-size: 15px; }
+      input[type="text"], select, textarea { font-size: 15px; padding: 10px 12px; }
+      textarea { min-height: 88px; }
+
+      /* 별점: 작은 화면에서 줄바꿈 허용 */
+      .star-row {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+      .star-row-label { font-size: 13px; min-width: 100px; }
+      .stars span { font-size: 24px; }
+      .star-score { font-size: 13px; min-width: 30px; }
+
+      /* NPS: 작은 폰트 + 간격 줄이기 */
+      .nps-btn { font-size: 13px; padding: 7px 2px; min-width: 28px; }
+
+      /* 정렬 버튼 */
+      .sort-btn { padding: 7px 12px; font-size: 13px; }
+      .list-title { font-size: 18px; }
+
+      /* 리뷰 카드 */
+      .review-card { padding: 14px 12px; }
+      .review-nick { font-size: 14px; }
+      .review-avg { font-size: 18px; }
+      .review-stars { font-size: 13px; }
+      .review-text { font-size: 13px; }
+      .review-thumb { width: 56px; height: 56px; }
+
+      /* 페이지네이션 */
+      .page-btn { width: 32px; height: 32px; font-size: 13px; }
+
+      /* 사진 업로드 2열 → 1열 */
+      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+
+      /* 제출 버튼 */
+      .submit-btn { font-size: 16px; padding: 13px; }
+      .list-goto-btn { font-size: 15px; padding: 12px 20px; }
+
+      /* 체크 항목 */
+      .check-item { font-size: 14px; padding: 9px 12px; }
+
+      /* 라디오 */
+      .radio-btn { font-size: 14px; padding: 7px 14px; }
+
+      /* 종합 평점 */
+      .overall-score .value { font-size: 26px; }
+      .overall-score { padding: 11px 14px; }
+    }
+
+    /* Success button */
+    .list-goto-btn {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 13px 28px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .list-goto-btn:hover { background: var(--primary-dark); }
+
+    /* List screen */
+    .list-header {
+      margin-bottom: 18px;
+    }
+    .list-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .sort-bar {
+      display: flex;
+      gap: 8px;
+    }
+    .sort-btn {
+      padding: 8px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sort-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Review card */
+    .review-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+    .review-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .review-nick {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .review-product {
+      font-size: 12px;
+      background: #1F0A00;
+      color: var(--primary-light);
+      border: 1px solid var(--primary);
+      border-radius: 99px;
+      padding: 2px 10px;
+    }
+    .review-stars {
+      color: var(--star-on);
+      font-size: 15px;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .review-score-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .review-avg {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .review-date {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-left: auto;
+    }
+    .review-text {
+      font-size: 14px;
+      color: #CCCCCC;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+    .review-photos {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .review-thumb {
+      width: 70px;
+      height: 70px;
+      border-radius: 5px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--border);
+      border-radius: 5px;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .page-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
   </style>
 </head>
 <body>
@@ -490,20 +711,9 @@
         <span class="step-badge">1 / 5</span>
       </div>
 
-      <div class="col2">
-        <div class="field-group">
-          <label class="field-label">이름 <span class="req">*</span></label>
-          <input type="text" name="name" placeholder="홍길동" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">연락처 <span class="req">*</span></label>
-          <input type="tel" name="phone" placeholder="010-0000-0000" required>
-        </div>
-      </div>
-
       <div class="field-group">
-        <label class="field-label">이메일</label>
-        <input type="email" name="email" placeholder="example@email.com">
+        <label class="field-label">닉네임 <span class="req">*</span></label>
+        <input type="text" name="name" placeholder="예: 쿠킹마스터" required>
       </div>
 
       <div class="field-group">
@@ -511,13 +721,8 @@
         <div class="hint">체험하신 제품을 선택해 주세요</div>
         <select name="product" required>
           <option value="">선택해 주세요</option>
-          <option>CLICLIC 프라이팬 20cm</option>
-          <option>CLICLIC 프라이팬 24cm</option>
-          <option>CLICLIC 프라이팬 28cm</option>
-          <option>CLICLIC 냄비 18cm</option>
-          <option>CLICLIC 냄비 22cm</option>
-          <option>CLICLIC 2종 세트 (프라이팬+냄비)</option>
-          <option>CLICLIC 3종 세트</option>
+          <option>CLICLIC 멀티팬 24cm</option>
+          <option>CLICLIC 웍 24cm</option>
         </select>
       </div>
 
@@ -541,32 +746,36 @@
 
       <div class="feature-badge">📌 실제 사용 사진을 올려주시면 리뷰가 훨씬 생생해집니다!</div>
 
-      <div class="field-group">
-        <label class="field-label">제품 사진</label>
-        <div class="hint">제품 전체, 손잡이 부착/분리 상태, 실제 요리 사진 등 (최대 6장, JPG/PNG)</div>
-        <div class="photo-upload-area" id="upload-area-1">
-          <input type="file" id="photo-product" accept="image/*" multiple onchange="handlePhotos(this, 'preview-product', 6)">
-          <div class="upload-icon">📷</div>
-          <div class="upload-text">클릭하여 사진 업로드</div>
-          <div class="upload-sub">또는 사진을 여기로 드래그</div>
-        </div>
-        <div class="photo-preview" id="preview-product"></div>
-        <div class="photo-count" id="count-product"></div>
-      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
-      <div class="divider"></div>
-
-      <div class="field-group">
-        <label class="field-label">요리 결과 사진</label>
-        <div class="hint">완성된 요리 사진을 자유롭게 올려주세요 (최대 6장)</div>
-        <div class="photo-upload-area" id="upload-area-2">
-          <input type="file" id="photo-food" accept="image/*" multiple onchange="handlePhotos(this, 'preview-food', 6)">
-          <div class="upload-icon">🍳</div>
-          <div class="upload-text">요리 사진 업로드</div>
-          <div class="upload-sub">맛있는 결과물을 보여주세요!</div>
+        <!-- 좌: 제품 사진 -->
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">제품 사진</label>
+          <div class="hint">제품·손잡이 상태 등 (최대 6장)</div>
+          <div class="photo-upload-area" id="upload-area-1" style="padding:24px 12px;">
+            <input type="file" id="photo-product" accept="image/*" multiple onchange="handlePhotos(this, 'preview-product', 6)">
+            <div class="upload-icon" style="font-size:36px;">📷</div>
+            <div class="upload-text" style="font-size:14px;">클릭하여 업로드</div>
+            <div class="upload-sub" style="font-size:12px;">드래그도 가능</div>
+          </div>
+          <div class="photo-preview" id="preview-product" style="grid-template-columns:repeat(3,1fr);"></div>
+          <div class="photo-count" id="count-product"></div>
         </div>
-        <div class="photo-preview" id="preview-food"></div>
-        <div class="photo-count" id="count-food"></div>
+
+        <!-- 우: 요리 결과 사진 -->
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">요리 결과 사진</label>
+          <div class="hint">완성된 요리 (최대 6장)</div>
+          <div class="photo-upload-area" id="upload-area-2" style="padding:24px 12px;">
+            <input type="file" id="photo-food" accept="image/*" multiple onchange="handlePhotos(this, 'preview-food', 6)">
+            <div class="upload-icon" style="font-size:36px;">🍳</div>
+            <div class="upload-text" style="font-size:14px;">클릭하여 업로드</div>
+            <div class="upload-sub" style="font-size:12px;">맛있는 결과물 공유!</div>
+          </div>
+          <div class="photo-preview" id="preview-food" style="grid-template-columns:repeat(3,1fr);"></div>
+          <div class="photo-count" id="count-food"></div>
+        </div>
+
       </div>
     </div>
 
@@ -689,27 +898,27 @@
       <div class="field-group">
         <label class="field-label">주로 사용하신 요리는? (중복 가능)</label>
         <div class="check-grid" id="cook-types">
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item" onclick="toggleCheck(event, this)">
             <input type="checkbox" name="cook_type" value="볶음·炒">
             <span class="box"></span> 볶음요리
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item" onclick="toggleCheck(event, this)">
             <input type="checkbox" name="cook_type" value="구이·焼">
             <span class="box"></span> 구이·프라이
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item" onclick="toggleCheck(event, this)">
             <input type="checkbox" name="cook_type" value="찌개·국">
             <span class="box"></span> 찌개·국
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item" onclick="toggleCheck(event, this)">
             <input type="checkbox" name="cook_type" value="계란요리">
             <span class="box"></span> 계란요리
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item" onclick="toggleCheck(event, this)">
             <input type="checkbox" name="cook_type" value="파스타·면">
             <span class="box"></span> 파스타·면
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item" onclick="toggleCheck(event, this)">
             <input type="checkbox" name="cook_type" value="베이킹·오븐">
             <span class="box"></span> 베이킹·오븐
           </label>
@@ -807,6 +1016,22 @@
       소중한 체험 후기를 제출해 주셔서 감사합니다.<br>
       <strong>CLICLIC</strong>이 더 좋은 제품으로 보답하겠습니다 🍳
     </p>
+    <button class="list-goto-btn" onclick="showListScreen()">다른 평가 둘러보기 →</button>
+  </div>
+
+  <!-- List screen -->
+  <div id="list-screen" style="display:none;">
+    <div class="list-header">
+      <h2 class="list-title">체험단 평가 모아보기</h2>
+      <div class="sort-bar">
+        <button class="sort-btn active" data-sort="recent" onclick="setSort(this,'recent')">최근 순</button>
+        <button class="sort-btn" data-sort="rating" onclick="setSort(this,'rating')">평점 순</button>
+        <button class="sort-btn" data-sort="photo" onclick="setSort(this,'photo')">사진 포함</button>
+      </div>
+    </div>
+    <div id="review-list"></div>
+    <div class="pagination" id="pagination"></div>
+    <button class="list-goto-btn" style="margin-top:16px;width:100%;" onclick="showForm()">✏️ 한번 더 사용 후기 작성</button>
   </div>
 </main>
 
@@ -896,7 +1121,8 @@
   }
 
   // ── Checkbox ──────────────────────────────────────────────────
-  function toggleCheck(label) {
+  function toggleCheck(event, label) {
+    event.preventDefault();
     label.classList.toggle('checked');
     const cb = label.querySelector('input[type="checkbox"]');
     cb.checked = label.classList.contains('checked');
@@ -947,6 +1173,138 @@
   document.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"], select, textarea')
     .forEach(el => el.addEventListener('input', updateProgress));
 
+  // ── Review store (in-memory) ──────────────────────────────────
+  const reviews = [
+    { nick:'맛있는하루', product:'CLICLIC 멀티팬 24cm', avg:4.8, pros:'손잡이 탈부착이 정말 편해요. 설거지할 때 훨씬 수월합니다.', cons:'손잡이 클릭감이 조금 더 명확했으면 좋겠어요.', date:'2025-05-28', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🍳'], hasPhoto:true },
+    { nick:'쿡킹마스터', product:'CLICLIC 웍 24cm', avg:4.6, pros:'웍 특유의 화력이 잘 살아납니다. 무게도 적당해요.', cons:'코팅이 조금 더 두꺼웠으면 좋겠습니다.', date:'2025-05-25', photos:[], hasPhoto:false },
+    { nick:'집밥요리사', product:'CLICLIC 멀티팬 24cm', avg:5.0, pros:'완벽합니다. 오븐에 바로 넣을 수 있어서 정말 편해요!', cons:'특별히 없어요.', date:'2025-05-22', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥘','https://placehold.co/70x70/2A1A0A/FF6633?text=✨'], hasPhoto:true },
+    { nick:'푸드스타일러', product:'CLICLIC 웍 24cm', avg:4.2, pros:'디자인이 너무 예뻐요. 주방 분위기가 달라졌어요.', cons:'초반에 길들이기가 필요합니다.', date:'2025-05-20', photos:[], hasPhoto:false },
+    { nick:'요리초보탈출', product:'CLICLIC 멀티팬 24cm', avg:4.5, pros:'코팅이 정말 좋습니다. 계란이 전혀 달라붙지 않아요.', cons:'가격이 조금 있지만 그만한 값어치는 해요.', date:'2025-05-18', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥚'], hasPhoto:true },
+    { nick:'건강한식탁', product:'CLICLIC 웍 24cm', avg:4.7, pros:'기름을 거의 쓰지 않아도 볶음요리가 잘 됩니다.', cons:'손잡이 수납 케이스가 있으면 더 좋겠어요.', date:'2025-05-15', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥦','https://placehold.co/70x70/2A1A0A/FF6633?text=🍜'], hasPhoto:true },
+    { nick:'슬기로운주방생활', product:'CLICLIC 멀티팬 24cm', avg:4.3, pros:'수납공간이 절반으로 줄었어요. 손잡이 분리가 핵심!', cons:'조금 무거운 편이에요.', date:'2025-05-12', photos:[], hasPhoto:false },
+    { nick:'미식탐구자', product:'CLICLIC 웍 24cm', avg:4.9, pros:'스테이크를 구웠을 때 겉이 바삭하게 잘 익었어요.', cons:'없음.', date:'2025-05-10', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥩'], hasPhoto:true },
+    { nick:'주방의달인', product:'CLICLIC 멀티팬 24cm', avg:4.1, pros:'세척이 편하고 코팅 내구성이 좋습니다.', cons:'초반 냄새가 약간 있었는데 금방 사라졌어요.', date:'2025-05-08', photos:[], hasPhoto:false },
+    { nick:'요리하는아빠', product:'CLICLIC 웍 24cm', avg:4.4, pros:'아이들 반찬 만들 때 너무 편해요. 손잡이 분리로 안전!', cons:'색상이 더 다양했으면 좋겠어요.', date:'2025-05-05', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🍱'], hasPhoto:true },
+    { nick:'쿡스타그램', product:'CLICLIC 멀티팬 24cm', avg:3.8, pros:'가벼운 편이고 그립감 좋아요.', cons:'코팅이 기대보다는 조금 약한 것 같아요.', date:'2025-05-02', photos:[], hasPhoto:false },
+    { nick:'집밥클라쓰', product:'CLICLIC 웍 24cm', avg:4.6, pros:'중화요리 만들 때 화력 받는 게 진짜 달라요.', cons:'손잡이 체결 시 딸깍 소리가 더 크면 좋겠어요.', date:'2025-04-28', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🍝','https://placehold.co/70x70/2A1A0A/FF6633?text=🥗'], hasPhoto:true },
+  ];
+
+  let currentSort = 'recent';
+  let currentPage = 1;
+  const PAGE_SIZE = 10;
+
+  function getSorted() {
+    let list = [...reviews];
+    if (currentSort === 'rating') list.sort((a,b) => b.avg - a.avg);
+    else if (currentSort === 'recent') list.sort((a,b) => new Date(b.date) - new Date(a.date));
+    else if (currentSort === 'photo') list = list.filter(r => r.hasPhoto);
+    return list;
+  }
+
+  function renderStars(avg) {
+    const full = Math.floor(avg);
+    const half = avg - full >= 0.5;
+    let s = '★'.repeat(full);
+    if (half) s += '½';
+    return s;
+  }
+
+  function renderList() {
+    const list = getSorted();
+    const total = list.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const page = list.slice(start, start + PAGE_SIZE);
+
+    const container = document.getElementById('review-list');
+    if (page.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:var(--text-sub);padding:32px 0;">해당 조건의 평가가 없습니다.</p>';
+    } else {
+      container.innerHTML = page.map(r => `
+        <div class="review-card">
+          <div class="review-card-top">
+            <span class="review-nick">${r.nick}</span>
+            <span class="review-product">${r.product}</span>
+          </div>
+          <div class="review-score-row">
+            <span class="review-avg">${r.avg.toFixed(1)}</span>
+            <span class="review-stars">${'★'.repeat(Math.round(r.avg))}</span>
+            <span class="review-date">${r.date}</span>
+          </div>
+          <div class="review-text">${r.pros}</div>
+          ${r.photos.length > 0 ? `<div class="review-photos">${r.photos.map(p => `<img class="review-thumb" src="${p}" alt="리뷰사진">`).join('')}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    const pg = document.getElementById('pagination');
+    let html = '';
+    html += `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+    pg.innerHTML = html;
+  }
+
+  function goPage(n) {
+    const list = getSorted();
+    const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+    if (n < 1 || n > totalPages) return;
+    currentPage = n;
+    renderList();
+    document.getElementById('list-screen').scrollIntoView({ behavior:'smooth' });
+  }
+
+  function setSort(btn, sort) {
+    currentSort = sort;
+    currentPage = 1;
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderList();
+  }
+
+  function showListScreen() {
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('list-screen').style.display = 'block';
+    renderList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showForm() {
+    // Reset form
+    document.getElementById('review-form').reset();
+    photoData['preview-product'] = [];
+    photoData['preview-food'] = [];
+    document.getElementById('preview-product').innerHTML = '';
+    document.getElementById('preview-food').innerHTML = '';
+    document.getElementById('count-product').textContent = '';
+    document.getElementById('count-food').textContent = '';
+    document.querySelectorAll('.stars span').forEach(s => s.classList.remove('on'));
+    document.querySelectorAll('.star-row').forEach(r => delete r.dataset.score);
+    document.querySelectorAll('.star-score').forEach(s => s.textContent = '-');
+    document.getElementById('avg-score').textContent = '—';
+    document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.check-item').forEach(b => { b.classList.remove('checked'); b.querySelector('.box').textContent = ''; });
+    document.querySelectorAll('.nps-btn').forEach(b => b.classList.remove('selected'));
+    npsValue = null;
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false;
+    btn.textContent = '✉️ 평가 제출하기';
+
+    document.getElementById('list-screen').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('review-form').style.display = 'block';
+    document.querySelector('.progress-wrap').style.display = 'block';
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   // ── Form submit ──────────────────────────────────────────────
   document.getElementById('review-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -954,14 +1312,34 @@
     const name = document.querySelector('input[name="name"]').value.trim();
     const product = document.querySelector('select[name="product"]').value;
 
-    if (!name) { alert('이름을 입력해 주세요.'); return; }
+    if (!name) { alert('닉네임을 입력해 주세요.'); return; }
     if (!product) { alert('수령 제품을 선택해 주세요.'); return; }
+
+    // Collect avg score
+    const rows = document.querySelectorAll('#star-group .star-row[data-score]');
+    const scores = Array.from(rows).map(r => parseInt(r.dataset.score)||0).filter(s=>s>0);
+    const avg = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
+
+    // Collect photos (product)
+    const photos = photoData['preview-product'].slice(0,3).map(p => p.src);
+
+    // Add to reviews array
+    const today = new Date().toISOString().slice(0,10);
+    reviews.unshift({
+      nick: name,
+      product: product,
+      avg: Math.round(avg * 10) / 10,
+      pros: document.querySelector('textarea[name="pros"]').value.trim() || '—',
+      cons: document.querySelector('textarea[name="cons"]').value.trim() || '—',
+      date: today,
+      photos: photos,
+      hasPhoto: photos.length > 0
+    });
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = '제출 중...';
 
-    // Simulate submission
     setTimeout(() => {
       document.getElementById('review-form').style.display = 'none';
       document.getElementById('success-screen').style.display = 'block';
