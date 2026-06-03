@@ -505,9 +505,9 @@
       flex-shrink: 0;
     }
     .popup-logo {
-      font-size: 18px;
+      font-size: 28px;
       font-weight: 900;
-      letter-spacing: 4px;
+      letter-spacing: 3px;
       color: #fff;
     }
     /* 랜덤 배경 이미지 영역 — 1:1 비율 */
@@ -542,14 +542,15 @@
       font-weight: 600;
     }
     .popup-actions {
-      padding: 12px 16px 16px;
+      padding: 12px 16px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 8px;
       flex-shrink: 0;
     }
     .popup-btn-primary {
-      width: 100%;
+      width: 60%;
       padding: 13px;
       background: var(--primary);
       color: #fff;
@@ -562,7 +563,7 @@
     }
     .popup-btn-primary:hover { background: var(--primary-dark); }
     .popup-btn-secondary {
-      width: 100%;
+      width: 60%;
       padding: 11px;
       background: transparent;
       color: var(--text-sub);
@@ -628,6 +629,9 @@
       /* 제출 버튼 */
       .submit-btn { font-size: 16px; padding: 13px; }
       .list-goto-btn { font-size: 15px; padding: 12px 20px; }
+
+      /* 팝업 모바일 너비 */
+      .popup-box { width: 70%; }
 
       /* 체크 항목 */
       .check-item { font-size: 14px; padding: 9px 12px; }
@@ -804,8 +808,8 @@
     </div>
     <div class="popup-img-area" id="popup-img-area"></div>
     <div class="popup-body">
-      <p class="popup-msg">제가 불편해서 만들었고,<br>여러분의 불편함으로 더 좋아집니다.<br><br>좋았던 것도, 아쉬웠던 것도<br>모두 솔직하게 남겨주세요.<br>그게 다음 CLICLIC을 만드는 재료입니다.</p>
-      <p class="popup-sign">— 개발자 드림</p>
+      <p class="popup-msg">제가 불편해서 만들었고,<br>여러분의 불편함으로 더 좋아집니다.<br><br>좋았던 것도, 아쉬웠던 것도<br>모두 솔직하게 남겨주세요.<br>그 모든것이 다음 CLICLIC을<br>만드는 재료입니다.</p>
+      <p class="popup-sign">개발자 드림</p>
     </div>
     <div class="popup-actions">
       <button class="popup-btn-primary" onclick="popupAction('write')">✏️ 후기 작성하기</button>
