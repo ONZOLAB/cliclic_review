@@ -12,7 +12,7 @@
       --card: #1A1A1A;
       --border: #2E2E2E;
       --text: #F0F0F0;
-      --text-sub: #888888;
+      --text-sub: #AAAAAA;
       --star-on: #FF3B00;
       --star-off: #333333;
       --success: #2E7D52;
@@ -105,7 +105,7 @@
       font-weight: 700;
       background: var(--primary);
       color: #fff;
-      border-radius: 99px;
+      border-radius: 6px;
       padding: 2px 10px;
       margin-left: auto;
     }
@@ -123,7 +123,7 @@
       margin-left: 3px;
     }
     .hint {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-sub);
       margin-bottom: 8px;
     }
@@ -136,7 +136,7 @@
       width: 100%;
       padding: 11px 16px;
       border: 1.5px solid var(--border);
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 16px;
       font-family: inherit;
       color: var(--text);
@@ -152,6 +152,11 @@
     textarea {
       resize: vertical;
       min-height: 110px;
+      background: #141414;
+      border-color: #2A2A2A;
+    }
+    textarea:focus {
+      background: #1A1A1A;
     }
 
     .field-group {
@@ -188,18 +193,17 @@
       gap: 6px;
     }
     .stars span {
-      font-size: 30px;
+      font-size: 24px;
       cursor: pointer;
       color: var(--star-off);
-      transition: color 0.15s, transform 0.1s;
+      transition: color 0.15s;
       user-select: none;
       line-height: 1;
     }
     .stars span.on { color: var(--star-on); }
-    .stars span:hover { transform: scale(1.15); }
     .star-score {
-      font-size: 14px;
-      color: var(--text-sub);
+      font-size: 15px;
+      color: #CCCCCC;
       min-width: 40px;
       text-align: right;
     }
@@ -208,7 +212,7 @@
     .overall-score {
       background: #1F0A00;
       border: 1.5px solid var(--primary);
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 13px 20px;
       display: flex;
       align-items: center;
@@ -226,7 +230,7 @@
     /* Photo upload */
     .photo-upload-area {
       border: 2.5px dashed var(--border);
-      border-radius: 7px;
+      border-radius: 8px;
       padding: 29px 20px;
       text-align: center;
       cursor: pointer;
@@ -268,7 +272,7 @@
     .preview-item {
       position: relative;
       aspect-ratio: 1;
-      border-radius: 5px;
+      border-radius: 8px;
       overflow: hidden;
       background: var(--border);
     }
@@ -315,7 +319,7 @@
       gap: 10px;
       padding: 10px 14px;
       border: 1.5px solid var(--border);
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
       font-size: 15px;
@@ -325,7 +329,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid var(--border);
-      border-radius: 3px;
+      border-radius: 4px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -352,7 +356,7 @@
     .radio-btn {
       padding: 8px 18px;
       border: 1.5px solid var(--border);
-      border-radius: 99px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 15px;
       transition: all 0.15s;
@@ -377,7 +381,7 @@
       min-width: 38px;
       padding: 8px 4px;
       border: 1.5px solid var(--border);
-      border-radius: 4px;
+      border-radius: 8px;
       text-align: center;
       cursor: pointer;
       font-size: 15px;
@@ -462,7 +466,7 @@
       gap: 6px;
       background: #1F0A00;
       border: 1px solid var(--primary);
-      border-radius: 99px;
+      border-radius: 6px;
       padding: 5px 14px;
       font-size: 13px;
       font-weight: 600;
@@ -500,7 +504,7 @@
     /* 슬림 로고 바 */
     .popup-top {
       background: var(--primary);
-      padding: 4px 16px 3px;
+      padding: 2px 16px 2px;
       text-align: center;
       flex-shrink: 0;
     }
@@ -555,7 +559,7 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
@@ -605,8 +609,9 @@
       .stars span { font-size: 24px; }
       .star-score { font-size: 13px; min-width: 30px; }
 
-      /* NPS: 작은 폰트 + 간격 줄이기 */
-      .nps-btn { font-size: 13px; padding: 7px 2px; min-width: 28px; }
+      /* NPS: 10개 한 줄 */
+      .nps-row { gap: 4px; }
+      .nps-btn { font-size: 12px; padding: 7px 0; min-width: 0; flex: 1; }
 
       /* 정렬 버튼 */
       .sort-btn { padding: 7px 12px; font-size: 13px; }
@@ -683,7 +688,7 @@
     .sort-btn {
       padding: 8px 16px;
       border: 1.5px solid var(--border);
-      border-radius: 99px;
+      border-radius: 6px;
       background: transparent;
       color: var(--text-sub);
       font-size: 14px;
@@ -721,7 +726,7 @@
       background: #1F0A00;
       color: var(--primary-light);
       border: 1px solid var(--primary);
-      border-radius: 99px;
+      border-radius: 6px;
       padding: 2px 10px;
     }
     .review-stars {
@@ -805,6 +810,7 @@
   <div class="popup-box" id="popup-box">
     <div class="popup-top">
       <div class="popup-logo">CLICLIC</div>
+      <div style="font-size:16px;color:rgba(255,255,255,0.9);letter-spacing:0.5px;margin-top:0px;font-weight:500;">지구도 사람도 더 건강하게</div>
     </div>
     <div class="popup-img-area" id="popup-img-area"></div>
     <div class="popup-body">
@@ -820,7 +826,7 @@
 
 <header>
   <div class="logo">CLICLIC</div>
-  <div class="tagline">체험단 제품 평가 설문 — 분리형 손잡이 쿡웨어</div>
+  <div class="tagline">지구도 사람도 건강하게 — CLICLIC 멀티팬</div>
 </header>
 
 <div class="progress-wrap">
@@ -855,11 +861,11 @@
 
       <div class="field-group">
         <label class="field-label">체험 기간</label>
-        <div class="radio-grid">
-          <label class="radio-btn"><input type="radio" name="duration" value="1주 미만" onclick="selectRadio(this)">1주 미만</label>
-          <label class="radio-btn"><input type="radio" name="duration" value="1~2주" onclick="selectRadio(this)">1~2주</label>
-          <label class="radio-btn"><input type="radio" name="duration" value="2주~1개월" onclick="selectRadio(this)">2주~1개월</label>
-          <label class="radio-btn"><input type="radio" name="duration" value="1개월 이상" onclick="selectRadio(this)">1개월 이상</label>
+        <div class="radio-grid" style="justify-content:center;flex-wrap:nowrap;">
+          <label class="radio-btn" style="flex:1;text-align:center;"><input type="radio" name="duration" value="1주 미만" onclick="selectRadio(this)">1주 미만</label>
+          <label class="radio-btn" style="flex:1;text-align:center;"><input type="radio" name="duration" value="1~2주" onclick="selectRadio(this)">1~2주</label>
+          <label class="radio-btn" style="flex:1;text-align:center;"><input type="radio" name="duration" value="2주~1개월" onclick="selectRadio(this)">2주~1개월</label>
+          <label class="radio-btn" style="flex:1;text-align:center;"><input type="radio" name="duration" value="1개월 이상" onclick="selectRadio(this)">1개월 이상</label>
         </div>
       </div>
     </div>
@@ -871,14 +877,14 @@
         <span class="step-badge">2 / 5</span>
       </div>
 
-      <div class="feature-badge">📌 실제 사용 사진을 올려주시면 리뷰가 훨씬 생생해집니다!</div>
+      <div class="feature-badge" style="display:flex;justify-content:center;width:100%;text-align:center;">📌 실제 사용 사진을 올려주시면 리뷰가 훨씬 생생해집니다!</div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
         <!-- 좌: 제품 사진 -->
         <div class="field-group" style="margin-bottom:0;">
-          <label class="field-label">제품 사진</label>
-          <div class="hint">제품·손잡이 상태 등 (최대 6장)</div>
+          <label class="field-label" style="text-align:center;">제품 사진</label>
+          <div class="hint" style="text-align:center;">제품·손잡이 상태 등 (최대 6장)</div>
           <div class="photo-upload-area" id="upload-area-1" style="padding:24px 12px;">
             <input type="file" id="photo-product" accept="image/*" multiple onchange="handlePhotos(this, 'preview-product', 6)">
             <div class="upload-icon" style="font-size:36px;">📷</div>
@@ -891,8 +897,8 @@
 
         <!-- 우: 요리 결과 사진 -->
         <div class="field-group" style="margin-bottom:0;">
-          <label class="field-label">요리 결과 사진</label>
-          <div class="hint">완성된 요리 (최대 6장)</div>
+          <label class="field-label" style="text-align:center;">요리 결과 사진</label>
+          <div class="hint" style="text-align:center;">완성된 요리 (최대 6장)</div>
           <div class="photo-upload-area" id="upload-area-2" style="padding:24px 12px;">
             <input type="file" id="photo-food" accept="image/*" multiple onchange="handlePhotos(this, 'preview-food', 6)">
             <div class="upload-icon" style="font-size:36px;">🍳</div>
@@ -953,7 +959,7 @@
         <div class="divider"></div>
         <!-- 제품 관련 -->
         <div class="star-row" data-key="coating">
-          <span class="star-row-label">🍳 코팅 성능</span>
+          <span class="star-row-label">🥘 표면 조리감</span>
           <div class="stars">
             <span onclick="setStars(this)">★</span>
             <span onclick="setStars(this)">★</span>
@@ -1022,30 +1028,82 @@
         <span class="step-badge">4 / 5</span>
       </div>
 
+      <!-- 스테인리스 사용 경험 비교 -->
+      <div class="field-group">
+        <label class="field-label">기존 스테인리스 팬 사용 경험이 있으신가요?</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="자주 사용" onclick="selectRadio(this)">자주 사용했어요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="가끔 사용" onclick="selectRadio(this)">가끔 사용했어요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="거의 없음" onclick="selectRadio(this)">거의 없어요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="처음" onclick="selectRadio(this)">처음이에요</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">기존 스테인리스 팬과 비교해 눌러붙음이 어떠셨나요?</label>
+        <div class="hint">CLICLIC은 표면 경화 처리로 기존 스테인리스 대비 눌러붙음을 크게 줄였습니다</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="훨씬 적다" onclick="selectRadio(this)">훨씬 적어요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="체감될 정도로 적다" onclick="selectRadio(this)">체감될 정도로 적어요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="비슷하다" onclick="selectRadio(this)">비슷해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="잘 모르겠다" onclick="selectRadio(this)">잘 모르겠어요</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">세척 편의성은 어느 정도로 느끼셨나요?</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="기존보다 훨씬 편함" onclick="selectRadio(this)">기존보다 훨씬 편해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="코팅팬만큼 쉽다" onclick="selectRadio(this)">코팅팬만큼 쉬워요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="기존 스테인리스와 비슷" onclick="selectRadio(this)">기존 스테인리스와 비슷해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="코팅팬보다 약간 불편" onclick="selectRadio(this)">코팅팬보다 약간 불편해요</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">식기세척기 또는 오븐을 활용하셨나요? (중복 가능)</label>
+        <div class="check-grid" style="grid-template-columns:1fr 1fr 1fr;">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+            <input type="checkbox" name="appliance" value="식기세척기">
+            <span class="box"></span> 식기세척기
+          </label>
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+            <input type="checkbox" name="appliance" value="오븐">
+            <span class="box"></span> 오븐
+          </label>
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+            <input type="checkbox" name="appliance" value="미사용">
+            <span class="box"></span> 미사용
+          </label>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
       <div class="field-group">
         <label class="field-label">주로 사용하신 요리는? (중복 가능)</label>
-        <div class="check-grid" id="cook-types">
-          <label class="check-item" onclick="toggleCheck(event, this)">
+        <div class="check-grid" id="cook-types" style="grid-template-columns:1fr 1fr 1fr;">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
             <input type="checkbox" name="cook_type" value="볶음·炒">
             <span class="box"></span> 볶음요리
           </label>
-          <label class="check-item" onclick="toggleCheck(event, this)">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
             <input type="checkbox" name="cook_type" value="구이·焼">
             <span class="box"></span> 구이·프라이
           </label>
-          <label class="check-item" onclick="toggleCheck(event, this)">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
             <input type="checkbox" name="cook_type" value="찌개·국">
             <span class="box"></span> 찌개·국
           </label>
-          <label class="check-item" onclick="toggleCheck(event, this)">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
             <input type="checkbox" name="cook_type" value="계란요리">
             <span class="box"></span> 계란요리
           </label>
-          <label class="check-item" onclick="toggleCheck(event, this)">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
             <input type="checkbox" name="cook_type" value="파스타·면">
             <span class="box"></span> 파스타·면
           </label>
-          <label class="check-item" onclick="toggleCheck(event, this)">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
             <input type="checkbox" name="cook_type" value="베이킹·오븐">
             <span class="box"></span> 베이킹·오븐
           </label>
@@ -1055,11 +1113,12 @@
       <div class="divider"></div>
 
       <div class="field-group">
-        <label class="field-label">손잡이 분리 기능, 실제로 활용하셨나요? <span class="req">*</span></label>
-        <div class="radio-grid">
-          <label class="radio-btn"><input type="radio" name="handle_use" value="자주 활용" onclick="selectRadio(this)">자주 활용</label>
-          <label class="radio-btn"><input type="radio" name="handle_use" value="가끔 활용" onclick="selectRadio(this)">가끔 활용</label>
-          <label class="radio-btn"><input type="radio" name="handle_use" value="거의 미활용" onclick="selectRadio(this)">거의 미활용</label>
+        <label class="field-label">분리형 손잡이의 편의성은 어떠셨나요? <span class="req">*</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존보다 편리함" onclick="selectRadio(this)">기존보다 편리해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존과 비슷함" onclick="selectRadio(this)">기존과 비슷해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="약간 불편함" onclick="selectRadio(this)">약간 불편해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="많이 불편함" onclick="selectRadio(this)">많이 불편해요</label>
         </div>
       </div>
 
@@ -1070,7 +1129,7 @@
 
       <div class="field-group">
         <label class="field-label">아쉬웠던 점 또는 개선 희망사항</label>
-        <textarea name="cons" placeholder="예: 손잡이 체결 시 클릭감이 조금 더 명확했으면 좋겠어요. 코팅이 더 내구성이 있었으면 합니다."></textarea>
+        <textarea name="cons" placeholder="예: 계란 프라이 시 살짝 눌어붙었어요. 손잡이 체결 시 클릭감이 더 명확했으면 좋겠어요."></textarea>
       </div>
 
       <div class="field-group">
@@ -1089,8 +1148,7 @@
       <div class="field-group">
         <label class="field-label">주변에 추천하실 의향이 있으신가요?</label>
         <div class="hint">0 = 전혀 추천 안 함 &nbsp;|&nbsp; 10 = 매우 강력히 추천</div>
-        <div class="nps-row" id="nps-row">
-          <div class="nps-btn" onclick="setNPS(this, 0)">0</div>
+        <div class="nps-row" id="nps-row" style="flex-wrap:nowrap;">
           <div class="nps-btn" onclick="setNPS(this, 1)">1</div>
           <div class="nps-btn" onclick="setNPS(this, 2)">2</div>
           <div class="nps-btn" onclick="setNPS(this, 3)">3</div>
@@ -1110,11 +1168,11 @@
 
       <div class="field-group">
         <label class="field-label">재구매 의향</label>
-        <div class="radio-grid">
-          <label class="radio-btn"><input type="radio" name="repurchase" value="반드시 구매" onclick="selectRadio(this)">반드시 구매</label>
-          <label class="radio-btn"><input type="radio" name="repurchase" value="아마 구매" onclick="selectRadio(this)">아마 구매</label>
-          <label class="radio-btn"><input type="radio" name="repurchase" value="미정" onclick="selectRadio(this)">미정</label>
-          <label class="radio-btn"><input type="radio" name="repurchase" value="구매 안 함" onclick="selectRadio(this)">구매 안 함</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+          <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="반드시 구매" onclick="selectRadio(this)">반드시 구매</label>
+          <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="아마 구매" onclick="selectRadio(this)">아마 구매</label>
+          <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="미정" onclick="selectRadio(this)">미정</label>
+          <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="구매 안 함" onclick="selectRadio(this)">구매 안 함</label>
         </div>
       </div>
 
@@ -1132,6 +1190,9 @@
 
     <!-- Submit -->
     <button type="submit" class="submit-btn" id="submit-btn">✉️ 평가 제출하기</button>
+    <p style="text-align:center;font-size:15px;color:var(--text-sub);margin-top:12px;line-height:1.8;">
+      사용하면서 새로운 경험이 생기면<br>언제든 다시 후기를 남겨주세요 😊
+    </p>
 
   </form>
 
@@ -1140,8 +1201,8 @@
     <div class="check-circle">✓</div>
     <h2>평가가 완료되었습니다!</h2>
     <p>
-      소중한 체험 후기를 제출해 주셔서 감사합니다.<br>
-      <strong>CLICLIC</strong>이 더 좋은 제품으로 보답하겠습니다 🍳
+      소중한 후기가 다음 CLICLIC을 만드는 재료입니다.<br>
+      지구도 사람도 더 건강하게 — <strong>CLICLIC</strong>
     </p>
     <button class="list-goto-btn" onclick="showListScreen()">다른 평가 둘러보기 →</button>
   </div>
@@ -1165,21 +1226,9 @@
 <script>
   // ── Popup ─────────────────────────────────────────────────────
   const popupImages = [
-    'Gemini_Generated_Image_3kf0653kf0653kf0.png',
-    'Gemini_Generated_Image_74c4ae74c4ae74c4.png',
-    'Gemini_Generated_Image_a9kqg6a9kqg6a9kq.png',
-    'Gemini_Generated_Image_ahgk87ahgk87ahgk.png',
-    'Gemini_Generated_Image_bnn7jmbnn7jmbnn7.png',
-    'Gemini_Generated_Image_e4rmwde4rmwde4rm.png',
-    'Gemini_Generated_Image_ghsoqlghsoqlghso.png',
-    'Gemini_Generated_Image_gvqwmqgvqwmqgvqw.png',
-    'Gemini_Generated_Image_me70cgme70cgme70.png',
-    'Gemini_Generated_Image_o85q8oo85q8oo85q.png',
-    'Gemini_Generated_Image_pxmynrpxmynrpxmy.png',
-    'Gemini_Generated_Image_uqx84wuqx84wuqx8.png',
-    'Gemini_Generated_Image_v81ht5v81ht5v81h.png',
-    'Gemini_Generated_Image_vaz1ixvaz1ixvaz1.png',
-    'Gemini_Generated_Image_x2nkg0x2nkg0x2nk.png',
+    '1.png','2.png','3.png','4.png','5.png',
+    '6.png','7.png','8.png','9.png','10.png',
+    '11.png','12.png','13.png','14.png','15.png',
   ];
 
   (function initPopupImage() {
@@ -1316,7 +1365,7 @@
   let npsValue = null;
   function setNPS(btn, val) {
     npsValue = val;
-    document.querySelectorAll('.nps-btn').forEach((b, i) => b.classList.toggle('selected', i === val));
+    document.querySelectorAll('.nps-btn').forEach((b, i) => b.classList.toggle('selected', i === val - 1));
     updateProgress();
   }
 
