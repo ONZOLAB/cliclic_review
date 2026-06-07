@@ -474,6 +474,45 @@
       margin-bottom: 13px;
     }
 
+    /* ── Photo lightbox ─────────────────────────────────────── */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px 16px 80px;
+    }
+    .lightbox-overlay.open { display: block; }
+    .lightbox-imgs {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .lightbox-imgs img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+    .lightbox-close {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 48px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
     /* Progress wrap dark */
     .progress-wrap {
       background: #1A1A1A !important;
@@ -815,6 +854,12 @@
   </style>
 </head>
 <body>
+
+<!-- Photo Lightbox -->
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
+  <div class="lightbox-imgs" id="lightbox-imgs"></div>
+  <button class="lightbox-close" onclick="document.getElementById('lightbox-overlay').classList.remove('open');document.body.style.overflow='';">✕ 닫기</button>
+</div>
 
 <!-- Popup -->
 <div class="popup-overlay" id="popup-overlay">
@@ -1489,7 +1534,7 @@
             <span class="review-date">${r.date}</span>
           </div>
           <div class="review-text">${r.pros}</div>
-          ${r.photos.length > 0 ? `<div class="review-photos">${r.photos.map(p => `<img class="review-thumb" src="${p}" alt="리뷰사진">`).join('')}</div>` : ''}
+          ${r.photos.length > 0 ? `<div class="review-photos">${r.photos.map((p, i) => `<img class="review-thumb" src="${p}" alt="리뷰사진" style="cursor:pointer;" onclick="openLightbox(${JSON.stringify(r.photos)}, ${i})">`).join('')}</div>` : ''}
         </div>
       `).join('');
     }
@@ -1525,9 +1570,35 @@
     renderList();
   }
 
+  // ── Lightbox ──────────────────────────────────────────────────
+  function openLightbox(photos, startIdx) {
+    const overlay = document.getElementById('lightbox-overlay');
+    const container = document.getElementById('lightbox-imgs');
+    container.innerHTML = photos.map(p => `<img src="${p}" alt="리뷰사진">`).join('');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // 클릭한 사진 위치로 스크롤
+    setTimeout(() => {
+      const imgs = container.querySelectorAll('img');
+      if (imgs[startIdx]) imgs[startIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target !== document.getElementById('lightbox-overlay') && !e.target.classList.contains('lightbox-close')) return;
+    document.getElementById('lightbox-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   function showListScreen() {
     document.getElementById('success-screen').style.display = 'none';
     document.getElementById('list-screen').style.display = 'block';
+    // 최근 순으로 리셋하여 새 후기가 맨 위에 오도록
+    currentSort = 'recent';
+    currentPage = 1;
+    document.querySelectorAll('.sort-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.sort === 'recent');
+    });
     renderList();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
