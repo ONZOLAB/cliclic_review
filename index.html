@@ -1453,14 +1453,14 @@
   }
 
   // ── ImgBB API 키 ─────────────────────────────────────────────
-  const IMGBB_KEY = '513bbee4591e19c01d21ee86ade9f96e'; // 발급받은 키로 교체
+  const IMGBB_KEY = '513bbee4591e19c01d21ee86ade9f96e';
 
   // ── Photo upload ──────────────────────────────────────────────
   const photoData = { 'preview-product': [], 'preview-food': [] };
 
   function uploadToImgBB(base64, filename) {
     return new Promise((resolve, reject) => {
-      if (IMGBB_KEY === '513bbee4591e19c01d21ee86ade9f96e') {
+      if (!IMGBB_KEY || IMGBB_KEY.length < 10) {
         // 키 미설정 시 base64 그대로 사용 (임시)
         resolve(base64);
         return;
