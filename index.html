@@ -1562,7 +1562,7 @@
   }
 
   // ── Google Sheets 연동 URL (Apps Script 배포 후 교체) ──────────
-  const SHEETS_URL = https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec;
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec';
 
   // ── Form submit ──────────────────────────────────────────────
   document.getElementById('review-form').addEventListener('submit', function(e) {
@@ -1629,15 +1629,13 @@
     btn.disabled = true;
     btn.textContent = '제출 중...';
 
-    // Google Sheets 전송 (URL 설정된 경우)
-    if (SHEETS_URL !== 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec') {
-      fetch(SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(() => {});
-    }
+    // Google Sheets 전송
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
 
     setTimeout(() => {
       document.getElementById('review-form').style.display = 'none';
