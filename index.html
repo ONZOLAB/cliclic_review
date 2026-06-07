@@ -1534,7 +1534,7 @@
             <span class="review-date">${r.date}</span>
           </div>
           <div class="review-text">${r.pros}</div>
-          ${r.photos.length > 0 ? `<div class="review-photos">${r.photos.map((p, i) => `<img class="review-thumb" src="${p}" alt="리뷰사진" style="cursor:pointer;" onclick="openLightbox(${JSON.stringify(r.photos)}, ${i})">`).join('')}</div>` : ''}
+          ${r.photos.length > 0 ? `<div class="review-photos">${r.photos.map((p, i) => `<img class="review-thumb" src="${p}" alt="리뷰사진" style="cursor:pointer;" data-photos='${r.photos.map(x=>x).join('|SPLIT|')}' data-idx="${i}" onclick="openLightboxEl(this)">`).join('')}</div>` : ''}
         </div>
       `).join('');
     }
@@ -1571,24 +1571,36 @@
   }
 
   // ── Lightbox ──────────────────────────────────────────────────
-  function openLightbox(photos, startIdx) {
+  function openLightboxEl(el) {
+    const photos = el.dataset.photos.split('|SPLIT|').filter(p => p);
+    const idx = parseInt(el.dataset.idx) || 0;
     const overlay = document.getElementById('lightbox-overlay');
     const container = document.getElementById('lightbox-imgs');
     container.innerHTML = photos.map(p => `<img src="${p}" alt="리뷰사진">`).join('');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-    // 클릭한 사진 위치로 스크롤
     setTimeout(() => {
       const imgs = container.querySelectorAll('img');
-      if (imgs[startIdx]) imgs[startIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (imgs[idx]) imgs[idx].scrollIntoView({ block: 'start' });
     }, 50);
   }
 
-  function closeLightbox(e) {
-    if (e && e.target !== document.getElementById('lightbox-overlay') && !e.target.classList.contains('lightbox-close')) return;
-    document.getElementById('lightbox-overlay').classList.remove('open');
-    document.body.style.overflow = '';
+  // ── Sheets에서 리뷰 로딩 ─────────────────────────────────────
+  function loadReviewsFromSheets() {
+    if (typeof SHEETS_URL === 'undefined' || SHEETS_URL.includes('YOUR_APPS')) return;
+    fetch(SHEETS_URL)
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data) || data.length === 0) return;
+        // 기존 샘플 데이터 제거 후 Sheets 데이터로 교체
+        reviews.length = 0;
+        data.forEach(r => reviews.push(r));
+      })
+      .catch(() => {});
   }
+
+  // 페이지 로드 시 Sheets 데이터 불러오기
+  loadReviewsFromSheets();
 
   function showListScreen() {
     document.getElementById('success-screen').style.display = 'none';
