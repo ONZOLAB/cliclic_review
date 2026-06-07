@@ -724,6 +724,7 @@
     /* List screen */
     .list-header {
       margin-bottom: 18px;
+      text-align: center;
     }
     .list-title {
       font-size: 22px;
@@ -734,6 +735,7 @@
     .sort-bar {
       display: flex;
       gap: 8px;
+      justify-content: center;
     }
     .sort-btn {
       padding: 8px 16px;
@@ -1594,19 +1596,32 @@
   // ── Sheets에서 리뷰 로딩 ─────────────────────────────────────
   function loadReviewsFromSheets(callback) {
     if (typeof SHEETS_URL === 'undefined' || SHEETS_URL.includes('YOUR_APPS')) return;
-    fetch(SHEETS_URL + '?action=list', { redirect: 'follow' })
-      .then(res => res.json())
-      .then(data => {
-        if (!Array.isArray(data)) return;
-        reviews.length = 0;
-        data.forEach(r => reviews.push(r));
-        // 리스트 화면이 열려있으면 즉시 갱신
-        if (document.getElementById('list-screen').style.display !== 'none') {
-          renderList();
+
+    // JSONP 방식 — Apps Script CORS 우회
+    const cbName = '_sheetsCallback_' + Date.now();
+    const script = document.createElement('script');
+
+    window[cbName] = function(data) {
+      try {
+        if (Array.isArray(data) && data.length > 0) {
+          reviews.length = 0;
+          data.forEach(r => reviews.push(r));
+          if (document.getElementById('list-screen').style.display !== 'none') {
+            renderList();
+          }
         }
-        if (typeof callback === 'function') callback();
-      })
-      .catch(() => {});
+      } catch(e) {}
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      if (typeof callback === 'function') callback();
+    };
+
+    script.src = SHEETS_URL + '?callback=' + cbName;
+    script.onerror = function() {
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    document.head.appendChild(script);
   }
 
   // 페이지 로드 완료 후 Sheets 데이터 불러오기
