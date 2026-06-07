@@ -1,4 +1,4 @@
-// CLICLIC 체험단 평가 — Google Apps Script v2
+// CLICLIC 체험단 평가 — Google Apps Script v3
 // POST: 새 후기 저장 / GET: 후기 목록 반환
 
 function doPost(e) {
@@ -39,7 +39,7 @@ function doPost(e) {
   }
 }
 
-// GET: 후기 목록 반환 (페이지에서 불러올 때 사용)
+// GET: 후기 목록 반환
 function doGet(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -51,18 +51,27 @@ function doGet(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // 헤더 제외, 데이터만 역순(최신순)으로
-    const data = rows.slice(1).reverse().map(r => ({
-      timestamp: r[0] ? r[0].toString() : '',
-      nick:      r[1] || '익명',
-      product:   r[2] || '',
-      avg:       parseFloat(r[18]) || 0,
-      pros:      r[19] || '—',
-      cons:      r[20] || '—',
-      date:      r[0] ? r[0].toString().slice(0,10) : '',
-      hasPhoto:  false,
-      photos:    []
-    }));
+    const data = rows.slice(1).reverse().map(r => {
+      // 날짜 형식 안전 처리
+      let dateStr = '';
+      try {
+        const d = new Date(r[0]);
+        if (!isNaN(d)) {
+          dateStr = d.toISOString().slice(0, 10);
+        }
+      } catch(e) { dateStr = ''; }
+
+      return {
+        nick:     r[1] ? String(r[1]) : '익명',
+        product:  r[2] ? String(r[2]) : '',
+        avg:      isNaN(parseFloat(r[18])) ? 0 : Math.round(parseFloat(r[18]) * 10) / 10,
+        pros:     r[19] ? String(r[19]) : '—',
+        cons:     r[20] ? String(r[20]) : '—',
+        date:     dateStr,
+        hasPhoto: false,
+        photos:   []
+      };
+    });
 
     return ContentService
       .createTextOutput(JSON.stringify(data))
