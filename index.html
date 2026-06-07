@@ -1452,8 +1452,33 @@
     // 'write': 기본 폼 상태 유지
   }
 
+  // ── ImgBB API 키 ─────────────────────────────────────────────
+  const IMGBB_KEY = 'YOUR_IMGBB_API_KEY_HERE'; // 발급받은 키로 교체
+
   // ── Photo upload ──────────────────────────────────────────────
   const photoData = { 'preview-product': [], 'preview-food': [] };
+
+  function uploadToImgBB(base64, filename) {
+    return new Promise((resolve, reject) => {
+      if (IMGBB_KEY === 'YOUR_IMGBB_API_KEY_HERE') {
+        // 키 미설정 시 base64 그대로 사용 (임시)
+        resolve(base64);
+        return;
+      }
+      const pure = base64.split(',')[1];
+      const form = new FormData();
+      form.append('key', IMGBB_KEY);
+      form.append('image', pure);
+      form.append('name', filename);
+      fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: form })
+        .then(r => r.json())
+        .then(d => {
+          if (d.success) resolve(d.data.url);
+          else reject(new Error('ImgBB 업로드 실패'));
+        })
+        .catch(reject);
+    });
+  }
 
   function handlePhotos(input, previewId, maxCount) {
     const files = Array.from(input.files);
@@ -1464,8 +1489,23 @@
     toAdd.forEach(file => {
       const reader = new FileReader();
       reader.onload = e => {
-        existing.push({ src: e.target.result, name: file.name });
+        const base64 = e.target.result;
+        // 로컬 미리보기 즉시 표시
+        const placeholder = { src: base64, name: file.name, uploading: true };
+        existing.push(placeholder);
         renderPreviews(previewId, maxCount);
+        // ImgBB에 업로드
+        uploadToImgBB(base64, file.name)
+          .then(url => {
+            placeholder.src = url;
+            placeholder.uploading = false;
+            renderPreviews(previewId, maxCount);
+          })
+          .catch(() => {
+            // 업로드 실패 시 base64 유지
+            placeholder.uploading = false;
+            renderPreviews(previewId, maxCount);
+          });
       };
       reader.readAsDataURL(file);
     });
@@ -1479,7 +1519,8 @@
     const arr = photoData[previewId];
     container.innerHTML = arr.map((p, i) => `
       <div class="preview-item">
-        <img src="${p.src}" alt="사진 ${i+1}">
+        <img src="${p.src}" alt="사진 ${i+1}" style="opacity:${p.uploading?'0.4':'1'}">
+        ${p.uploading ? '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:rgba(0,0,0,0.4);">업로드중</div>' : ''}
         <button class="remove-btn" type="button" onclick="removePhoto('${previewId}', ${i}, ${maxCount})">✕</button>
       </div>
     `).join('');
@@ -1872,13 +1913,17 @@
       repurchase:   document.querySelector('input[name="repurchase"]:checked')?.value || '',
       sns_link:     document.querySelector('input[name="sns_link"]').value.trim(),
       sns_id:       document.querySelector('input[name="sns_id"]').value.trim(),
+      photos:       photoData['preview-product'].filter(p => !p.uploading).map(p => p.src).filter(s => s.startsWith('http')),
     };
 
-    // 리뷰 목록에 추가
+    // 리뷰 목록에 추가 (ImgBB URL 사용)
+    const photoUrls = payload.photos && payload.photos.length > 0
+      ? payload.photos
+      : photoData['preview-product'].map(p => p.src); // 키 미설정 fallback
     reviews.unshift({
       nick: name, product, avg: payload.avg_score,
-      pros: payload.pros || '—', cons: payload.cons || '—',
-      date: today, photos, hasPhoto: photos.length > 0
+      pros: payload.pros || '—', cons: payload.cons || '—', free: payload.free || '',
+      date: today, photos: photoUrls, hasPhoto: photoUrls.length > 0
     });
 
     const btn = document.getElementById('submit-btn');
