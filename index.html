@@ -474,6 +474,94 @@
       margin-bottom: 13px;
     }
 
+    /* ── Card detail overlay ────────────────────────────────── */
+    .card-detail-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px 16px 80px;
+    }
+    .card-detail-overlay.open { display: block; }
+    .card-detail-box {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #1A1A1A;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-detail-header {
+      background: #222;
+      padding: 16px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-detail-nick { font-size: 16px; font-weight: 700; }
+    .card-detail-product {
+      font-size: 12px;
+      background: #1F0A00;
+      color: var(--primary-light);
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      padding: 2px 10px;
+    }
+    .card-detail-body { padding: 16px 18px; }
+    .card-detail-score {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-detail-avg { font-size: 28px; font-weight: 900; color: var(--primary); }
+    .card-detail-stars { font-size: 18px; color: var(--star-on); }
+    .card-detail-date { font-size: 12px; color: var(--text-sub); margin-left: auto; }
+    .card-detail-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .card-detail-text {
+      font-size: 15px;
+      color: #CCCCCC;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .card-detail-photos {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .card-detail-photos img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+    .card-detail-close {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 48px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .review-card { cursor: pointer; transition: border-color 0.15s; }
+    .review-card:hover { border-color: var(--primary); }
+
     /* ── Photo lightbox ─────────────────────────────────────── */
     .lightbox-overlay {
       display: none;
@@ -856,6 +944,12 @@
   </style>
 </head>
 <body>
+
+<!-- Card Detail Overlay -->
+<div class="card-detail-overlay" id="card-detail-overlay">
+  <div class="card-detail-box" id="card-detail-box"></div>
+  <button class="card-detail-close" onclick="document.getElementById('card-detail-overlay').classList.remove('open');document.body.style.overflow='';">✕ 닫기</button>
+</div>
 
 <!-- Photo Lightbox -->
 <div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox(event)">
@@ -1530,8 +1624,10 @@
     if (page.length === 0) {
       container.innerHTML = '<p style="text-align:center;color:var(--text-sub);padding:32px 0;">해당 조건의 평가가 없습니다.</p>';
     } else {
-      container.innerHTML = page.map(r => `
-        <div class="review-card">
+      // 리뷰 데이터를 전역 배열로 저장 (상세 오버레이용)
+      window._pageReviews = page;
+      container.innerHTML = page.map((r, idx) => `
+        <div class="review-card" onclick="openCardDetail(${idx})">
           <div class="review-card-top">
             <span class="review-nick">${r.nick}</span>
             <span class="review-product">${r.product}</span>
@@ -1542,7 +1638,7 @@
             <span class="review-date">${r.date}</span>
           </div>
           <div class="review-text">${r.pros}</div>
-          ${r.photos.length > 0 ? `<div class="review-photos">${r.photos.map((p, i) => `<img class="review-thumb" src="${p}" alt="리뷰사진" style="cursor:pointer;" data-photos='${r.photos.map(x=>x).join('|SPLIT|')}' data-idx="${i}" onclick="openLightboxEl(this)">`).join('')}</div>` : ''}
+          ${r.photos && r.photos.length > 0 ? `<div class="review-photos">${r.photos.slice(0,2).map(p => `<img class="review-thumb" src="${p}" alt="리뷰사진">`).join('')}${r.photos.length > 2 ? `<span style="font-size:12px;color:var(--text-sub);align-self:center;">+${r.photos.length-2}장</span>` : ''}</div>` : ''}
         </div>
       `).join('');
     }
@@ -1578,6 +1674,47 @@
     renderList();
   }
 
+  // ── Card Detail ───────────────────────────────────────────────
+  function openCardDetail(idx) {
+    const r = (window._pageReviews || [])[idx];
+    if (!r) return;
+    const box = document.getElementById('card-detail-box');
+    const photosHtml = r.photos && r.photos.length > 0
+      ? `<div class="card-detail-label">📷 사진</div>
+         <div class="card-detail-photos">${r.photos.map(p => `<img src="${p}" alt="리뷰사진">`).join('')}</div>`
+      : '';
+    const consHtml = r.cons && r.cons !== '—'
+      ? `<div class="card-detail-label" style="margin-top:12px;">아쉬운 점</div>
+         <div class="card-detail-text">${r.cons}</div>`
+      : '';
+    const freeHtml = r.free
+      ? `<div class="card-detail-label" style="margin-top:12px;">한마디</div>
+         <div class="card-detail-text">${r.free}</div>`
+      : '';
+
+    box.innerHTML = `
+      <div class="card-detail-header">
+        <span class="card-detail-nick">${r.nick}</span>
+        <span class="card-detail-product">${r.product}</span>
+      </div>
+      <div class="card-detail-body">
+        <div class="card-detail-score">
+          <span class="card-detail-avg">${r.avg.toFixed(1)}</span>
+          <span class="card-detail-stars">${'★'.repeat(Math.round(r.avg))}</span>
+          <span class="card-detail-date">${r.date}</span>
+        </div>
+        <div class="card-detail-label">가장 좋았던 점</div>
+        <div class="card-detail-text">${r.pros || '—'}</div>
+        ${photosHtml}
+        ${consHtml}
+        ${freeHtml}
+      </div>
+    `;
+    document.getElementById('card-detail-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('card-detail-overlay').scrollTop = 0;
+  }
+
   // ── Lightbox ──────────────────────────────────────────────────
   function openLightboxEl(el) {
     const photos = el.dataset.photos.split('|SPLIT|').filter(p => p);
@@ -1604,8 +1741,16 @@
     window[cbName] = function(data) {
       try {
         if (Array.isArray(data) && data.length > 0) {
+          // 현재 세션에서 추가된 사진 포함 게시물 보존
+          const localOnly = reviews.filter(r => r.photos && r.photos.length > 0);
           reviews.length = 0;
+          // Sheets 데이터 먼저
           data.forEach(r => reviews.push(r));
+          // 로컬 사진 게시물 중 Sheets에 없는 것 맨 앞에 추가
+          localOnly.forEach(local => {
+            const exists = reviews.some(r => r.nick === local.nick && r.date === local.date);
+            if (!exists) reviews.unshift(local);
+          });
           if (document.getElementById('list-screen').style.display !== 'none') {
             renderList();
           }
