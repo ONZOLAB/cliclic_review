@@ -530,6 +530,9 @@
       background-size: cover;
       background-position: center;
       transition: opacity 0.6s ease;
+      will-change: opacity;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
     .popup-body {
       flex: 0 0 auto;
@@ -1558,6 +1561,9 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // ── Google Sheets 연동 URL (Apps Script 배포 후 교체) ──────────
+  const SHEETS_URL = https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec;
+
   // ── Form submit ──────────────────────────────────────────────
   document.getElementById('review-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -1568,30 +1574,70 @@
     if (!name) { alert('닉네임을 입력해 주세요.'); return; }
     if (!product) { alert('수령 제품을 선택해 주세요.'); return; }
 
-    // Collect avg score
-    const rows = document.querySelectorAll('#star-group .star-row[data-score]');
-    const scores = Array.from(rows).map(r => parseInt(r.dataset.score)||0).filter(s=>s>0);
+    // 별점 수집
+    const starRows = document.querySelectorAll('#star-group .star-row[data-key]');
+    const starData = {};
+    starRows.forEach(r => { starData[r.dataset.key] = parseInt(r.dataset.score)||0; });
+    const scores = Object.values(starData).filter(s=>s>0);
     const avg = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
 
-    // Collect photos (product)
-    const photos = photoData['preview-product'].slice(0,3).map(p => p.src);
+    // 체크박스 수집
+    const cookTypes = Array.from(document.querySelectorAll('input[name="cook_type"]:checked')).map(c=>c.value).join(', ');
+    const appliance = Array.from(document.querySelectorAll('input[name="appliance"]:checked')).map(c=>c.value).join(', ');
 
-    // Add to reviews array
+    // 사진 (product)
+    const photos = photoData['preview-product'].slice(0,3).map(p => p.src);
     const today = new Date().toISOString().slice(0,10);
+
+    const payload = {
+      timestamp:    new Date().toLocaleString('ko-KR'),
+      nick:         name,
+      product:      product,
+      duration:     document.querySelector('input[name="duration"]:checked')?.value || '',
+      ss_exp:       document.querySelector('input[name="ss_exp"]:checked')?.value || '',
+      stick:        document.querySelector('input[name="stick_compare"]:checked')?.value || '',
+      clean:        document.querySelector('input[name="clean_compare"]:checked')?.value || '',
+      handle:       document.querySelector('input[name="handle_use"]:checked')?.value || '',
+      appliance:    appliance,
+      cook_types:   cookTypes,
+      star_handle_attach: starData.handle_attach||0,
+      star_handle_grip:   starData.handle_grip||0,
+      star_balance:       starData.handle_stability||0,
+      star_surface:       starData.coating||0,
+      star_heat:          starData.heat||0,
+      star_clean:         starData.clean||0,
+      star_design:        starData.design||0,
+      star_storage:       starData.storage||0,
+      avg_score:    (Math.round(avg*10)/10),
+      pros:         document.querySelector('textarea[name="pros"]').value.trim(),
+      cons:         document.querySelector('textarea[name="cons"]').value.trim(),
+      free:         document.querySelector('textarea[name="free"]').value.trim(),
+      nps:          npsValue || '',
+      repurchase:   document.querySelector('input[name="repurchase"]:checked')?.value || '',
+      sns_link:     document.querySelector('input[name="sns_link"]').value.trim(),
+      sns_id:       document.querySelector('input[name="sns_id"]').value.trim(),
+    };
+
+    // 리뷰 목록에 추가
     reviews.unshift({
-      nick: name,
-      product: product,
-      avg: Math.round(avg * 10) / 10,
-      pros: document.querySelector('textarea[name="pros"]').value.trim() || '—',
-      cons: document.querySelector('textarea[name="cons"]').value.trim() || '—',
-      date: today,
-      photos: photos,
-      hasPhoto: photos.length > 0
+      nick: name, product, avg: payload.avg_score,
+      pros: payload.pros || '—', cons: payload.cons || '—',
+      date: today, photos, hasPhoto: photos.length > 0
     });
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = '제출 중...';
+
+    // Google Sheets 전송 (URL 설정된 경우)
+    if (SHEETS_URL !== 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec') {
+      fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    }
 
     setTimeout(() => {
       document.getElementById('review-form').style.display = 'none';
