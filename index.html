@@ -1289,41 +1289,60 @@
 
   (function initPopupImage() {
     const wrap = document.getElementById('popup-img-area');
-    // 두 레이어 생성 (크로스페이드)
     const layerA = document.createElement('div');
     const layerB = document.createElement('div');
     layerA.className = 'popup-img-layer';
     layerB.className = 'popup-img-layer';
-    layerA.style.opacity = '1';
+    layerA.style.opacity = '0';
     layerB.style.opacity = '0';
     wrap.appendChild(layerA);
     wrap.appendChild(layerB);
 
-    // 이미지 프리로드
-    popupImages.forEach(src => { const i = new Image(); i.src = src; });
-
     let lastIdx = -1;
     let active = layerA;
     let inactive = layerB;
+    let imgTimer = null;
+
+    function showImage(src) {
+      const img = new Image();
+      img.onload = function() {
+        inactive.style.backgroundImage = `url('${src}')`;
+        inactive.style.opacity = '1';
+        active.style.opacity = '0';
+        [active, inactive] = [inactive, active];
+      };
+      img.src = src;
+    }
 
     function nextImage() {
       let idx;
       do { idx = Math.floor(Math.random() * popupImages.length); } while (idx === lastIdx);
       lastIdx = idx;
-      inactive.style.backgroundImage = `url('${popupImages[idx]}')`;
-      inactive.style.opacity = '1';
-      active.style.opacity = '0';
-      [active, inactive] = [inactive, active];
+      showImage(popupImages[idx]);
     }
 
-    nextImage();
-    const imgTimer = setInterval(() => {
-      if (document.getElementById('popup-overlay').style.display === 'none') {
-        clearInterval(imgTimer);
-        return;
-      }
-      nextImage();
-    }, 1200);
+    function startTimer() {
+      imgTimer = setInterval(() => {
+        if (document.getElementById('popup-overlay').style.display === 'none') {
+          clearInterval(imgTimer);
+          return;
+        }
+        nextImage();
+      }, 2000);
+    }
+
+    // 첫 이미지 로드 완료 후 타이머 시작
+    const firstIdx = Math.floor(Math.random() * popupImages.length);
+    lastIdx = firstIdx;
+    const firstImg = new Image();
+    firstImg.onload = function() {
+      layerA.style.backgroundImage = `url('${popupImages[firstIdx]}')`;
+      layerA.style.opacity = '1';
+      active = layerA;
+      inactive = layerB;
+      startTimer();
+    };
+    firstImg.src = popupImages[firstIdx];
   })();
 
   function popupAction(action) {
@@ -1588,11 +1607,10 @@
   // ── Sheets에서 리뷰 로딩 ─────────────────────────────────────
   function loadReviewsFromSheets() {
     if (typeof SHEETS_URL === 'undefined' || SHEETS_URL.includes('YOUR_APPS')) return;
-    fetch(SHEETS_URL)
+    fetch(SHEETS_URL + '?action=list', { redirect: 'follow' })
       .then(res => res.json())
       .then(data => {
         if (!Array.isArray(data) || data.length === 0) return;
-        // 기존 샘플 데이터 제거 후 Sheets 데이터로 교체
         reviews.length = 0;
         data.forEach(r => reviews.push(r));
       })
