@@ -891,7 +891,7 @@
 </div>
 
 <main>
-  <form id="review-form">
+  <form id="review-form" method="post" onsubmit="return false;">
 
     <!-- SECTION 1: 기본 정보 -->
     <div class="card" data-section="1">
@@ -1245,7 +1245,7 @@
     </div>
 
     <!-- Submit -->
-    <button type="submit" class="submit-btn" id="submit-btn">✉️ 평가 제출하기</button>
+    <button type="button" class="submit-btn" id="submit-btn" onclick="submitReview()">✉️ 평가 제출하기</button>
     <p style="text-align:center;font-size:15px;color:var(--text-sub);margin-top:12px;line-height:1.8;">
       사용하면서 새로운 경험이 생기면<br>언제든 다시 후기를 남겨주세요 😊
     </p>
@@ -1617,8 +1617,10 @@
       .catch(() => {});
   }
 
-  // 페이지 로드 시 Sheets 데이터 불러오기
-  loadReviewsFromSheets();
+  // 페이지 로드 완료 후 Sheets 데이터 불러오기
+  window.addEventListener('load', function() {
+    try { loadReviewsFromSheets(); } catch(e) {}
+  });
 
   function showListScreen() {
     document.getElementById('success-screen').style.display = 'none';
@@ -1666,9 +1668,7 @@
   const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec';
 
   // ── Form submit ──────────────────────────────────────────────
-  document.getElementById('review-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
+  function submitReview() {
     const name = document.querySelector('input[name="name"]').value.trim();
     const product = document.querySelector('select[name="product"]').value;
 
@@ -1744,7 +1744,7 @@
       document.querySelector('.progress-wrap').style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 800);
-  });
+  }
 </script>
 </body>
 </html>
