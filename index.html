@@ -493,7 +493,7 @@
     .popup-box {
       width: 90%;
       max-width: 420px;
-      max-height: 92vh;
+      max-height: 94vh;
       background: #1A1A1A;
       border: 1px solid #FF3B00;
       border-radius: 12px;
@@ -515,11 +515,11 @@
       color: #fff;
       line-height: 1.1;
     }
-    /* 랜덤 배경 이미지 영역 — 1:1 비율 크로스페이드 */
+    /* 랜덤 배경 이미지 영역 — 뷰포트 높이 비율 */
     .popup-img-area {
       width: 100%;
-      aspect-ratio: 1 / 1;
-      flex-shrink: 0;
+      height: clamp(120px, 38vh, 320px);
+      flex-shrink: 1;
       position: relative;
       background-color: #222;
       overflow: hidden;
@@ -532,12 +532,12 @@
       transition: opacity 0.6s ease;
     }
     .popup-body {
-      flex: 1;
+      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px 20px 6px;
+      padding: clamp(6px, 1.5vh, 14px) 20px clamp(4px, 1vh, 10px);
       text-align: center;
       overflow-y: auto;
     }
@@ -554,11 +554,11 @@
       margin-bottom: 0px;
     }
     .popup-actions {
-      padding: 12px 16px;
+      padding: clamp(6px, 1.2vh, 12px) 16px clamp(8px, 1.5vh, 14px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: clamp(5px, 1vh, 8px);
       flex-shrink: 0;
     }
     .popup-btn-primary {
