@@ -1494,20 +1494,7 @@
     .forEach(el => el.addEventListener('input', updateProgress));
 
   // ── Review store (in-memory) ──────────────────────────────────
-  const reviews = [
-    { nick:'맛있는하루', product:'CLICLIC 멀티팬 24cm', avg:4.8, pros:'손잡이 탈부착이 정말 편해요. 설거지할 때 훨씬 수월합니다.', cons:'손잡이 클릭감이 조금 더 명확했으면 좋겠어요.', date:'2025-05-28', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🍳'], hasPhoto:true },
-    { nick:'쿡킹마스터', product:'CLICLIC 웍 24cm', avg:4.6, pros:'웍 특유의 화력이 잘 살아납니다. 무게도 적당해요.', cons:'코팅이 조금 더 두꺼웠으면 좋겠습니다.', date:'2025-05-25', photos:[], hasPhoto:false },
-    { nick:'집밥요리사', product:'CLICLIC 멀티팬 24cm', avg:5.0, pros:'완벽합니다. 오븐에 바로 넣을 수 있어서 정말 편해요!', cons:'특별히 없어요.', date:'2025-05-22', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥘','https://placehold.co/70x70/2A1A0A/FF6633?text=✨'], hasPhoto:true },
-    { nick:'푸드스타일러', product:'CLICLIC 웍 24cm', avg:4.2, pros:'디자인이 너무 예뻐요. 주방 분위기가 달라졌어요.', cons:'초반에 길들이기가 필요합니다.', date:'2025-05-20', photos:[], hasPhoto:false },
-    { nick:'요리초보탈출', product:'CLICLIC 멀티팬 24cm', avg:4.5, pros:'코팅이 정말 좋습니다. 계란이 전혀 달라붙지 않아요.', cons:'가격이 조금 있지만 그만한 값어치는 해요.', date:'2025-05-18', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥚'], hasPhoto:true },
-    { nick:'건강한식탁', product:'CLICLIC 웍 24cm', avg:4.7, pros:'기름을 거의 쓰지 않아도 볶음요리가 잘 됩니다.', cons:'손잡이 수납 케이스가 있으면 더 좋겠어요.', date:'2025-05-15', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥦','https://placehold.co/70x70/2A1A0A/FF6633?text=🍜'], hasPhoto:true },
-    { nick:'슬기로운주방생활', product:'CLICLIC 멀티팬 24cm', avg:4.3, pros:'수납공간이 절반으로 줄었어요. 손잡이 분리가 핵심!', cons:'조금 무거운 편이에요.', date:'2025-05-12', photos:[], hasPhoto:false },
-    { nick:'미식탐구자', product:'CLICLIC 웍 24cm', avg:4.9, pros:'스테이크를 구웠을 때 겉이 바삭하게 잘 익었어요.', cons:'없음.', date:'2025-05-10', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🥩'], hasPhoto:true },
-    { nick:'주방의달인', product:'CLICLIC 멀티팬 24cm', avg:4.1, pros:'세척이 편하고 코팅 내구성이 좋습니다.', cons:'초반 냄새가 약간 있었는데 금방 사라졌어요.', date:'2025-05-08', photos:[], hasPhoto:false },
-    { nick:'요리하는아빠', product:'CLICLIC 웍 24cm', avg:4.4, pros:'아이들 반찬 만들 때 너무 편해요. 손잡이 분리로 안전!', cons:'색상이 더 다양했으면 좋겠어요.', date:'2025-05-05', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🍱'], hasPhoto:true },
-    { nick:'쿡스타그램', product:'CLICLIC 멀티팬 24cm', avg:3.8, pros:'가벼운 편이고 그립감 좋아요.', cons:'코팅이 기대보다는 조금 약한 것 같아요.', date:'2025-05-02', photos:[], hasPhoto:false },
-    { nick:'집밥클라쓰', product:'CLICLIC 웍 24cm', avg:4.6, pros:'중화요리 만들 때 화력 받는 게 진짜 달라요.', cons:'손잡이 체결 시 딸깍 소리가 더 크면 좋겠어요.', date:'2025-04-28', photos:['https://placehold.co/70x70/1A1A1A/FF3B00?text=🍝','https://placehold.co/70x70/2A1A0A/FF6633?text=🥗'], hasPhoto:true },
-  ];
+  const reviews = [];
 
   let currentSort = 'recent';
   let currentPage = 1;
@@ -1605,14 +1592,19 @@
   }
 
   // ── Sheets에서 리뷰 로딩 ─────────────────────────────────────
-  function loadReviewsFromSheets() {
+  function loadReviewsFromSheets(callback) {
     if (typeof SHEETS_URL === 'undefined' || SHEETS_URL.includes('YOUR_APPS')) return;
     fetch(SHEETS_URL + '?action=list', { redirect: 'follow' })
       .then(res => res.json())
       .then(data => {
-        if (!Array.isArray(data) || data.length === 0) return;
+        if (!Array.isArray(data)) return;
         reviews.length = 0;
         data.forEach(r => reviews.push(r));
+        // 리스트 화면이 열려있으면 즉시 갱신
+        if (document.getElementById('list-screen').style.display !== 'none') {
+          renderList();
+        }
+        if (typeof callback === 'function') callback();
       })
       .catch(() => {});
   }
@@ -1624,14 +1616,17 @@
 
   function showListScreen() {
     document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('review-form').style.display = 'none';
+    document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('list-screen').style.display = 'block';
-    // 최근 순으로 리셋하여 새 후기가 맨 위에 오도록
     currentSort = 'recent';
     currentPage = 1;
     document.querySelectorAll('.sort-btn').forEach(b => {
       b.classList.toggle('active', b.dataset.sort === 'recent');
     });
-    renderList();
+    // Sheets에서 최신 데이터 다시 로드 후 렌더
+    renderList(); // 일단 현재 데이터로 표시
+    loadReviewsFromSheets(); // 최신 데이터로 갱신
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
