@@ -1071,7 +1071,7 @@
         <span class="step-badge">3 / 5</span>
       </div>
 
-      <div class="hint" style="margin-bottom:20px;">별점을 클릭해 각 항목을 평가해 주세요 (1~5점)</div>
+      <div class="hint" style="margin-bottom:20px;">별점은 절대 평가입니다 (1~5점) — 기존 팬과의 비교는 다음 섹션에서 따로 여쭤볼게요 😊</div>
 
       <div class="star-group" id="star-group">
         <!-- 손잡이 관련 -->
@@ -1180,7 +1180,7 @@
         <span class="step-badge">4 / 5</span>
       </div>
 
-      <!-- 스테인리스 사용 경험 비교 -->
+      <!-- 스테인리스 사용 경험 (전제 조건) -->
       <div class="field-group">
         <label class="field-label">기존 스테인리스 팬 사용 경험이 있으신가요?</label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -1191,6 +1191,20 @@
         </div>
       </div>
 
+      <div class="divider"></div>
+
+      <!-- ① 손잡이 편의성 (CLICLIC 핵심 차별점) -->
+      <div class="field-group">
+        <label class="field-label">분리형 손잡이의 편의성은 어떠셨나요? <span class="req">*</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존보다 편리함" onclick="selectRadio(this)">기존보다 편리해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존과 비슷함" onclick="selectRadio(this)">기존과 비슷해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="약간 불편함" onclick="selectRadio(this)">약간 불편해요</label>
+          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="많이 불편함" onclick="selectRadio(this)">많이 불편해요</label>
+        </div>
+      </div>
+
+      <!-- ② 눌러붙음 비교 -->
       <div class="field-group">
         <label class="field-label">기존 스테인리스 팬과 비교해 눌러붙음이 어떠셨나요?</label>
         <div class="hint">CLICLIC은 표면 경화 처리로 기존 스테인리스 대비 눌러붙음을 크게 줄였습니다</div>
@@ -1202,6 +1216,7 @@
         </div>
       </div>
 
+      <!-- ③ 세척 편의성 비교 -->
       <div class="field-group">
         <label class="field-label">세척 편의성은 어느 정도로 느끼셨나요?</label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -1212,26 +1227,9 @@
         </div>
       </div>
 
-      <div class="field-group">
-        <label class="field-label">식기세척기 또는 오븐을 활용하셨나요? (중복 가능)</label>
-        <div class="check-grid" style="grid-template-columns:1fr 1fr 1fr;">
-          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
-            <input type="checkbox" name="appliance" value="식기세척기">
-            <span class="box"></span> 식기세척기
-          </label>
-          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
-            <input type="checkbox" name="appliance" value="오븐">
-            <span class="box"></span> 오븐
-          </label>
-          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
-            <input type="checkbox" name="appliance" value="미사용">
-            <span class="box"></span> 미사용
-          </label>
-        </div>
-      </div>
-
       <div class="divider"></div>
 
+      <!-- ④ 주로 사용한 요리 -->
       <div class="field-group">
         <label class="field-label">주로 사용하신 요리는? (중복 가능)</label>
         <div class="check-grid" id="cook-types" style="grid-template-columns:1fr 1fr 1fr;">
@@ -1262,18 +1260,28 @@
         </div>
       </div>
 
-      <div class="divider"></div>
-
+      <!-- ⑤ 식기세척기/오븐 활용 -->
       <div class="field-group">
-        <label class="field-label">분리형 손잡이의 편의성은 어떠셨나요? <span class="req">*</span></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존보다 편리함" onclick="selectRadio(this)">기존보다 편리해요</label>
-          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존과 비슷함" onclick="selectRadio(this)">기존과 비슷해요</label>
-          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="약간 불편함" onclick="selectRadio(this)">약간 불편해요</label>
-          <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="많이 불편함" onclick="selectRadio(this)">많이 불편해요</label>
+        <label class="field-label">식기세척기 또는 오븐을 활용하셨나요? (중복 가능)</label>
+        <div class="check-grid" style="grid-template-columns:1fr 1fr 1fr;">
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+            <input type="checkbox" name="appliance" value="식기세척기">
+            <span class="box"></span> 식기세척기
+          </label>
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+            <input type="checkbox" name="appliance" value="오븐">
+            <span class="box"></span> 오븐
+          </label>
+          <label class="check-item" onclick="toggleCheck(event, this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+            <input type="checkbox" name="appliance" value="미사용">
+            <span class="box"></span> 미사용
+          </label>
         </div>
       </div>
 
+      <div class="divider"></div>
+
+      <!-- ⑥ 서술형 의견 -->
       <div class="field-group">
         <label class="field-label">가장 좋았던 점</label>
         <textarea name="pros" placeholder="예: 손잡이를 분리하니 오븐에 바로 넣을 수 있어서 편했어요. 세척도 훨씬 쉬웠습니다."></textarea>
@@ -1282,11 +1290,6 @@
       <div class="field-group">
         <label class="field-label">아쉬웠던 점 또는 개선 희망사항</label>
         <textarea name="cons" placeholder="예: 계란 프라이 시 살짝 눌어붙었어요. 손잡이 체결 시 클릭감이 더 명확했으면 좋겠어요."></textarea>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">자유 한마디</label>
-        <textarea name="free" placeholder="전반적인 소감, 브랜드에 전하고 싶은 메시지 등 자유롭게 작성해 주세요 😊" style="min-height:80px;"></textarea>
       </div>
     </div>
 
@@ -1327,6 +1330,13 @@
           <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="구매 안 함" onclick="selectRadio(this)">구매 안 함</label>
         </div>
       </div>
+
+      <div class="field-group">
+        <label class="field-label">자유 한마디</label>
+        <textarea name="free" placeholder="전반적인 소감, 브랜드에 전하고 싶은 메시지 등 자유롭게 작성해 주세요 😊" style="min-height:80px;"></textarea>
+      </div>
+
+      <div class="divider"></div>
 
       <div class="field-group">
         <label class="field-label">SNS 포스팅 링크 (선택)</label>
