@@ -1,0 +1,190 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>세척·사용방법 — CLICLIC</title>
+  <style>
+    :root {
+      --primary: #FF3B00; --primary-dark: #CC2E00; --primary-light: #FF6633;
+      --bg: #111111; --card: #1A1A1A; --border: #2E2E2E;
+      --text: #F0F0F0; --text-sub: #AAAAAA;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    header { background: var(--primary); padding: 12px 20px 10px; display: flex; align-items: center; gap: 12px; }
+    .back-btn { color: #fff; text-decoration: none; font-size: 20px; }
+    .header-title { font-size: 20px; font-weight: 900; letter-spacing: 2px; color: #fff; }
+    main { max-width: 600px; margin: 0 auto; padding: 28px 20px 64px; }
+    .tab-bar { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab {
+      padding: 8px 18px; border-radius: 6px; border: 1.5px solid var(--border);
+      background: transparent; color: var(--text-sub); font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .tab.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .step-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 18px 20px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--primary);
+      color: #fff; font-weight: 800; font-size: 15px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-body { flex: 1; }
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .step-desc { font-size: 14px; color: var(--text-sub); line-height: 1.7; }
+    .warn-box {
+      background: #1e1000; border: 1px solid #FF3B0055; border-radius: 8px;
+      padding: 14px 18px; margin-bottom: 12px;
+    }
+    .warn-title { font-size: 14px; font-weight: 700; color: var(--primary-light); margin-bottom: 6px; }
+    .warn-desc { font-size: 13px; color: #ddaa88; line-height: 1.7; }
+    .tip-box {
+      background: #0d1e10; border: 1px solid #2E7D5255; border-radius: 8px;
+      padding: 14px 18px; margin-bottom: 12px;
+    }
+    .tip-title { font-size: 14px; font-weight: 700; color: #4caf7d; margin-bottom: 6px; }
+    .tip-desc { font-size: 13px; color: #99ccaa; line-height: 1.7; }
+    .section-label { font-size: 13px; font-weight: 700; color: var(--primary); margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="back-btn">←</a>
+  <div class="header-title">CLICLIC</div>
+</header>
+
+<main>
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab('usage')">🍳 사용방법</button>
+    <button class="tab" onclick="switchTab('cleaning')">🧹 세척방법</button>
+    <button class="tab" onclick="switchTab('tips')">💡 활용 팁</button>
+  </div>
+
+  <!-- 사용방법 -->
+  <div class="tab-content active" id="tab-usage">
+    <p class="section-label">처음 사용 전</p>
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">중성세제로 세척</div>
+        <div class="step-desc">처음 사용 전 부드러운 스펀지와 중성세제로 팬 전체를 세척하고 물기를 닦아주세요.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">예열 후 조리</div>
+        <div class="step-desc">중불로 1~2분 예열 후 조리를 시작하세요. 스테인리스 특성상 예열이 눌어붙음 방지에 중요합니다.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">손잡이 체결 확인</div>
+        <div class="step-desc">손잡이를 팬에 끼운 후 '딸깍' 소리가 날 때까지 눌러 고정되었는지 확인하세요.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">손잡이 분리</div>
+        <div class="step-desc">측면 버튼을 누른 상태에서 손잡이를 뒤로 당기면 분리됩니다. 오븐·식기세척기 사용 시 반드시 분리하세요.</div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-title">⚠️ 주의사항</div>
+      <div class="warn-desc">
+        · 고화력 불꽃이 팬 외부로 번지지 않도록 주의하세요.<br>
+        · 오븐 사용 시 손잡이를 반드시 분리한 후 사용하세요.<br>
+        · 금속 수세미 사용 시 표면이 손상될 수 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 세척방법 -->
+  <div class="tab-content" id="tab-cleaning">
+    <p class="section-label">일반 세척</p>
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">충분히 식힌 후 세척</div>
+        <div class="step-desc">뜨거운 상태에서 찬물을 붓지 마세요. 열충격으로 변형이 생길 수 있습니다. 충분히 식힌 후 세척하세요.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">부드러운 스펀지 사용</div>
+        <div class="step-desc">중성세제와 부드러운 스펀지로 세척하세요. 강한 금속 수세미는 표면 손상의 원인이 됩니다.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">손잡이 분리 후 세척</div>
+        <div class="step-desc">손잡이를 분리하면 팬 전체를 빠짐없이 세척할 수 있고, 식기세척기에도 안전하게 넣을 수 있습니다.</div>
+      </div>
+    </div>
+
+    <p class="section-label">찌든 때 제거</p>
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">베이킹소다 붙이기</div>
+        <div class="step-desc">물과 베이킹소다를 2:1로 섞어 눌어붙은 부분에 바르고 10분 후 스펀지로 닦아내세요.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">끓이기</div>
+        <div class="step-desc">팬에 물을 붓고 약불로 5분간 끓인 후 식혀서 세척하면 완고한 때도 쉽게 제거됩니다.</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">✅ 식기세척기 사용 가능</div>
+      <div class="tip-desc">손잡이를 분리한 팬 몸체와 분리된 손잡이 모두 식기세척기 사용이 가능합니다. 세척 후 바로 건조시켜 주세요.</div>
+    </div>
+  </div>
+
+  <!-- 활용 팁 -->
+  <div class="tab-content" id="tab-tips">
+    <p class="section-label">조리 팁</p>
+    <div class="tip-box">
+      <div class="tip-title">🍳 계란 요리</div>
+      <div class="tip-desc">중불로 충분히 예열 후 버터 또는 오일을 두르고 약불로 낮춰 조리하면 눌어붙지 않습니다. 바닥 온도가 안정된 후 달걀을 넣으세요.</div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-title">🥩 고기 굽기</div>
+      <div class="tip-desc">물방울이 맺혀 굴러다니는 정도까지 예열 후 고기를 올리세요. 처음 2분은 움직이지 마세요 — 자연스럽게 떨어집니다.</div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-title">🍲 오븐 활용</div>
+      <div class="tip-desc">손잡이 분리 후 250°C 오븐에서 사용 가능합니다. 스테이크 마무리, 그라탱, 감자구이 등에 활용해 보세요.</div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-title">🗄️ 수납</div>
+      <div class="tip-desc">손잡이를 분리하면 팬을 세워서 수납할 수 있어 공간을 절반 이하로 줄일 수 있습니다. 여러 개를 겹쳐 쌓아도 OK.</div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      const ids = ['usage','cleaning','tips'];
+      t.classList.toggle('active', ids[i] === id);
+    });
+    document.querySelectorAll('.tab-content').forEach(c => {
+      c.classList.toggle('active', c.id === 'tab-' + id);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문의 — CLICLIC</title>
+  <style>
+    :root {
+      --primary: #FF3B00; --primary-dark: #CC2E00; --primary-light: #FF6633;
+      --bg: #111111; --card: #1A1A1A; --border: #2E2E2E;
+      --text: #F0F0F0; --text-sub: #AAAAAA;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    header { background: var(--primary); padding: 12px 20px 10px; display: flex; align-items: center; gap: 12px; }
+    .back-btn { color: #fff; text-decoration: none; font-size: 20px; line-height: 1; }
+    .header-title { font-size: 20px; font-weight: 900; letter-spacing: 2px; color: #fff; }
+    main { max-width: 480px; margin: 0 auto; padding: 36px 24px 64px; }
+    .section-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .section-sub { font-size: 14px; color: var(--text-sub); line-height: 1.7; margin-bottom: 32px; }
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 24px; margin-bottom: 16px;
+    }
+    .contact-label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; }
+    .contact-value { font-size: 17px; font-weight: 600; }
+    .contact-btn {
+      display: block; width: 100%; margin-top: 12px;
+      padding: 14px; background: var(--primary); color: #fff;
+      border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
+      text-align: center; text-decoration: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .contact-btn:hover { background: var(--primary-dark); }
+    .hours { font-size: 13px; color: var(--text-sub); margin-top: 8px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    .info-box { font-size: 13px; color: var(--text-sub); line-height: 1.8; text-align: center; }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="back-btn">←</a>
+  <div class="header-title">CLICLIC</div>
+</header>
+
+<main>
+  <div class="section-title">문의하기</div>
+  <p class="section-sub">제품 사용 중 궁금한 점이나 불편한 점이 있으시면<br>언제든지 연락 주세요.</p>
+
+  <div class="contact-card">
+    <div class="contact-label">이메일 문의</div>
+    <div class="contact-value">bdnh.lee@gmail.com</div>
+    <p class="hours">평일 09:00 – 18:00 (주말·공휴일 제외)</p>
+    <a href="mailto:bdnh.lee@gmail.com?subject=[CLICLIC 문의]" class="contact-btn">✉️ 이메일 보내기</a>
+  </div>
+
+  <hr class="divider">
+
+  <p class="info-box">
+    체험단 관련 제품 하자·교환은<br>
+    이메일로 사진과 함께 문의해 주시면<br>
+    빠르게 처리해 드리겠습니다.
+  </p>
+</main>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리뷰 작성 — CLICLIC</title>
+  <style>
+    :root {
+      --primary:#FF3B00;--primary-dark:#CC2E00;--primary-light:#FF6633;
+      --bg:#111111;--card:#1A1A1A;--border:#2E2E2E;
+      --text:#F0F0F0;--text-sub:#AAAAAA;--star-on:#FF3B00;--star-off:#333;--success:#2E7D52;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.7;}
+    header{background:var(--primary);padding:12px 20px 10px;display:flex;align-items:center;gap:12px;}
+    .back-btn{color:#fff;text-decoration:none;font-size:20px;}
+    .header-title{font-size:20px;font-weight:900;letter-spacing:2px;color:#fff;}
+    .progress-wrap{background:#1A1A1A;border-bottom:1px solid var(--border);padding:10px 20px;position:sticky;top:0;z-index:100;}
+    .progress-label{font-size:13px;color:var(--text-sub);margin-bottom:5px;}
+    .progress-bar{background:var(--border);border-radius:99px;height:6px;}
+    .progress-fill{background:var(--primary);border-radius:99px;height:6px;width:0%;transition:width .4s ease;}
+    main{max-width:680px;margin:0 auto;padding:20px 16px 64px;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px 20px;margin-bottom:14px;}
+    .card-title{font-size:19px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .step-badge{font-size:12px;font-weight:600;background:var(--border);color:var(--text-sub);padding:2px 8px;border-radius:4px;margin-left:auto;}
+    .field-group{margin-bottom:16px;}
+    .field-label{display:block;font-size:15px;font-weight:600;margin-bottom:6px;color:var(--text);}
+    .req{color:var(--primary);}
+    .hint{font-size:13px;color:var(--text-sub);margin-bottom:8px;line-height:1.5;}
+    input[type="text"],select,textarea{width:100%;background:#222;border:1.5px solid var(--border);border-radius:6px;padding:11px 14px;color:var(--text);font-size:16px;font-family:inherit;outline:none;transition:border-color .2s;}
+    input[type="text"]:focus,select:focus,textarea:focus{border-color:var(--primary);}
+    select option{background:#222;}
+    textarea{min-height:96px;resize:vertical;background:#1e1e1e;}
+    /* Radio */
+    .radio-grid{display:flex;gap:8px;flex-wrap:wrap;}
+    .radio-btn{flex:1;min-width:0;padding:9px 10px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;text-align:center;font-size:14px;font-weight:600;color:var(--text-sub);transition:all .15s;white-space:nowrap;user-select:none;}
+    .radio-btn input{display:none;}
+    .radio-btn.selected{border-color:var(--primary);background:rgba(255,59,0,.12);color:var(--primary);}
+    /* Checkbox */
+    .check-grid{display:grid;gap:8px;}
+    .check-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-sub);transition:all .15s;user-select:none;}
+    .check-item input{display:none;}
+    .check-item .box{width:20px;height:20px;border:1.5px solid #555;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--primary);flex-shrink:0;}
+    .check-item.checked{border-color:var(--primary);background:rgba(255,59,0,.1);color:var(--primary);}
+    .check-item.checked .box{border-color:var(--primary);background:rgba(255,59,0,.2);}
+    /* Stars */
+    .star-group{display:flex;flex-direction:column;gap:10px;}
+    .star-row{display:flex;align-items:center;gap:8px;}
+    .star-row-label{font-size:14px;min-width:120px;color:var(--text-sub);}
+    .stars{display:flex;gap:3px;}
+    .stars span{font-size:26px;color:var(--star-off);cursor:pointer;transition:color .1s;user-select:none;-webkit-tap-highlight-color:transparent;}
+    .stars span.on{color:var(--star-on);}
+    .star-score{font-size:13px;color:var(--text-sub);min-width:28px;}
+    .divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+    .overall-score{display:flex;justify-content:space-between;align-items:center;background:#222;border-radius:8px;padding:14px 18px;margin-top:14px;}
+    .overall-score .label{font-size:15px;font-weight:600;}
+    .overall-score .value{font-size:28px;font-weight:900;color:var(--primary);}
+    .overall-score .max{font-size:15px;color:var(--text-sub);}
+    /* Photo upload */
+    .feature-badge{background:rgba(255,59,0,.1);border:1px solid rgba(255,59,0,.3);color:var(--primary-light);border-radius:6px;padding:8px 14px;font-size:13px;font-weight:600;margin-bottom:14px;}
+    .photo-upload-area{border:2px dashed var(--border);border-radius:8px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative;}
+    .photo-upload-area:hover{border-color:var(--primary);}
+    .photo-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .upload-icon{font-size:36px;margin-bottom:4px;}
+    .upload-text{font-size:14px;font-weight:600;color:var(--text-sub);}
+    .upload-sub{font-size:12px;color:#666;margin-top:2px;}
+    .photo-preview{display:grid;gap:8px;margin-top:10px;}
+    .preview-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;}
+    .preview-item img{width:100%;height:100%;object-fit:cover;}
+    .remove-btn{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;}
+    .photo-count{font-size:12px;color:var(--text-sub);margin-top:6px;}
+    /* NPS */
+    .nps-row{display:flex;gap:5px;flex-wrap:nowrap;}
+    .nps-btn{flex:1;min-width:0;padding:9px 4px;border:1.5px solid var(--border);border-radius:6px;text-align:center;font-size:13px;font-weight:700;color:var(--text-sub);cursor:pointer;transition:all .15s;user-select:none;}
+    .nps-btn.selected{border-color:var(--primary);background:rgba(255,59,0,.15);color:var(--primary);}
+    .nps-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text-sub);margin-top:6px;}
+    /* Submit */
+    .submit-btn{width:100%;padding:16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:17px;font-weight:800;cursor:pointer;transition:background .2s;letter-spacing:0.5px;}
+    .submit-btn:hover:not(:disabled){background:var(--primary-dark);}
+    .submit-btn:disabled{opacity:.6;cursor:default;}
+    /* Success */
+    #success-screen{display:none;text-align:center;padding:48px 20px;}
+    .success-icon{font-size:56px;margin-bottom:16px;}
+    .success-title{font-size:24px;font-weight:900;margin-bottom:8px;}
+    .success-msg{font-size:15px;color:var(--text-sub);line-height:1.8;margin-bottom:28px;}
+    .goto-btn{display:inline-block;padding:13px 28px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s;}
+    .goto-btn:hover{background:var(--primary-dark);}
+    .goto-btn-outline{display:inline-block;padding:12px 24px;background:transparent;color:var(--text-sub);border:1.5px solid #555;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;margin-top:10px;}
+    .goto-btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+    @media(max-width:480px){
+      body{font-size:15px;}
+      .card{padding:14px 14px;}
+      .star-row-label{min-width:90px;font-size:13px;}
+      .stars span{font-size:22px;}
+      .radio-btn{font-size:12px;padding:7px 6px;}
+      .check-item{font-size:13px;padding:8px 10px;}
+      .nps-btn{font-size:12px;padding:8px 2px;}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="back-btn">←</a>
+  <div class="header-title">CLICLIC 리뷰 작성</div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progress-label">섹션 1 / 5 — 기본 정보</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<main>
+
+<!-- Success -->
+<div id="success-screen">
+  <div class="success-icon">🎉</div>
+  <div class="success-title">감사합니다!</div>
+  <p class="success-msg">
+    소중한 후기가 등록되었습니다.<br>
+    사용하면서 새로운 경험이 생기면<br>언제든 다시 후기를 남겨주세요 😊
+  </p>
+  <a href="review-list.html" class="goto-btn">💬 리뷰 둘러보기</a><br>
+  <button class="goto-btn-outline" onclick="resetForm()">✏️ 한번 더 작성하기</button>
+</div>
+
+<form id="review-form" method="post" onsubmit="return false;">
+
+  <!-- 1/5 기본 정보 -->
+  <div class="card" data-section="1">
+    <div class="card-title"><span>👤</span> 기본 정보 <span class="step-badge">1 / 5</span></div>
+    <div class="field-group">
+      <label class="field-label">닉네임 <span class="req">*</span></label>
+      <input type="text" name="name" placeholder="예: 쿠킹마스터" required>
+    </div>
+    <div class="field-group">
+      <label class="field-label">수령 제품 <span class="req">*</span></label>
+      <div class="hint">체험하신 제품을 선택해 주세요</div>
+      <select name="product" required>
+        <option value="">선택해 주세요</option>
+        <option>CLICLIC 멀티팬 24cm</option>
+        <option>CLICLIC 웍 24cm</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">체험 기간</label>
+      <div class="radio-grid" style="flex-wrap:nowrap;">
+        <label class="radio-btn" style="flex:1;"><input type="radio" name="duration" value="1주 미만" onclick="selectRadio(this)">1주 미만</label>
+        <label class="radio-btn" style="flex:1;"><input type="radio" name="duration" value="1~2주" onclick="selectRadio(this)">1~2주</label>
+        <label class="radio-btn" style="flex:1;"><input type="radio" name="duration" value="2주~1개월" onclick="selectRadio(this)">2주~1개월</label>
+        <label class="radio-btn" style="flex:1;"><input type="radio" name="duration" value="1개월 이상" onclick="selectRadio(this)">1개월 이상</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2/5 사진 업로드 -->
+  <div class="card" data-section="2">
+    <div class="card-title"><span>📸</span> 사진 업로드 <span class="step-badge">2 / 5</span></div>
+    <div class="feature-badge" style="text-align:center;">📌 실제 사용 사진을 올려주시면 리뷰가 훨씬 생생해집니다!</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="field-group" style="margin-bottom:0;">
+        <label class="field-label" style="text-align:center;">제품 사진</label>
+        <div class="hint" style="text-align:center;">제품·손잡이 상태 등 (최대 6장)</div>
+        <div class="photo-upload-area" style="padding:22px 10px;">
+          <input type="file" id="photo-product" accept="image/*" multiple onchange="handlePhotos(this,'preview-product',6)">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">클릭하여 업로드</div>
+          <div class="upload-sub">드래그도 가능</div>
+        </div>
+        <div class="photo-preview" id="preview-product" style="grid-template-columns:repeat(3,1fr);"></div>
+        <div class="photo-count" id="count-product"></div>
+      </div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label class="field-label" style="text-align:center;">요리 결과 사진</label>
+        <div class="hint" style="text-align:center;">완성된 요리 (최대 6장)</div>
+        <div class="photo-upload-area" style="padding:22px 10px;">
+          <input type="file" id="photo-food" accept="image/*" multiple onchange="handlePhotos(this,'preview-food',6)">
+          <div class="upload-icon">🍳</div>
+          <div class="upload-text">클릭하여 업로드</div>
+          <div class="upload-sub">맛있는 결과물 공유!</div>
+        </div>
+        <div class="photo-preview" id="preview-food" style="grid-template-columns:repeat(3,1fr);"></div>
+        <div class="photo-count" id="count-food"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3/5 항목별 평가 -->
+  <div class="card" data-section="3">
+    <div class="card-title"><span>⭐</span> 항목별 평가 <span class="step-badge">3 / 5</span></div>
+    <div class="hint" style="margin-bottom:18px;">별점은 절대 평가입니다 (1~5점) — 기존 팬과의 비교는 다음 섹션에서 따로 여쭤볼게요 😊</div>
+    <div class="star-group" id="star-group">
+      <div class="star-row" data-key="handle_attach"><span class="star-row-label">🔗 손잡이 탈부착</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <div class="star-row" data-key="handle_grip"><span class="star-row-label">✋ 손잡이 그립감</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <div class="star-row" data-key="handle_stability"><span class="star-row-label">⚖️ 무게 균형</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <hr class="divider">
+      <div class="star-row" data-key="coating"><span class="star-row-label">🥘 표면 조리감</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <div class="star-row" data-key="heat"><span class="star-row-label">🔥 열 전달력</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <div class="star-row" data-key="clean"><span class="star-row-label">🧹 세척 편의성</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <div class="star-row" data-key="design"><span class="star-row-label">✨ 디자인/외관</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+      <div class="star-row" data-key="storage"><span class="star-row-label">🗄️ 수납 편의성</span><div class="stars"><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span><span onclick="setStars(this)">★</span></div><span class="star-score">-</span></div>
+    </div>
+    <div class="overall-score">
+      <span class="label">⭐ 종합 평점</span>
+      <span><span class="value" id="avg-score">—</span> <span class="max">/ 5.0</span></span>
+    </div>
+  </div>
+
+  <!-- 4/5 사용 경험 -->
+  <div class="card" data-section="4">
+    <div class="card-title"><span>📝</span> 사용 경험 <span class="step-badge">4 / 5</span></div>
+
+    <div class="field-group">
+      <label class="field-label">기존 스테인리스 팬 사용 경험이 있으신가요?</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="자주 사용" onclick="selectRadio(this)">자주 사용했어요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="가끔 사용" onclick="selectRadio(this)">가끔 사용했어요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="거의 없음" onclick="selectRadio(this)">거의 없어요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="ss_exp" value="처음" onclick="selectRadio(this)">처음이에요</label>
+      </div>
+    </div>
+    <hr class="divider">
+
+    <div class="field-group">
+      <label class="field-label">분리형 손잡이의 편의성은 어떠셨나요? <span class="req">*</span></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존보다 편리함" onclick="selectRadio(this)">기존보다 편리해요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="기존과 비슷함" onclick="selectRadio(this)">기존과 비슷해요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="약간 불편함" onclick="selectRadio(this)">약간 불편해요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="handle_use" value="많이 불편함" onclick="selectRadio(this)">많이 불편해요</label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">기존 스테인리스 팬과 비교해 눌러붙음이 어떠셨나요?</label>
+      <div class="hint">CLICLIC은 표면 경화 처리로 기존 스테인리스 대비 눌러붙음을 크게 줄였습니다</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="훨씬 적다" onclick="selectRadio(this)">훨씬 적어요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="체감될 정도로 적다" onclick="selectRadio(this)">체감될 정도로 적어요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="비슷하다" onclick="selectRadio(this)">비슷해요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="stick_compare" value="잘 모르겠다" onclick="selectRadio(this)">잘 모르겠어요</label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">세척 편의성은 어느 정도로 느끼셨나요?</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="기존보다 훨씬 편함" onclick="selectRadio(this)">기존보다 훨씬 편해요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="코팅팬만큼 쉽다" onclick="selectRadio(this)">코팅팬만큼 쉬워요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="기존 스테인리스와 비슷" onclick="selectRadio(this)">기존 스테인리스와 비슷해요</label>
+        <label class="radio-btn" style="text-align:center;"><input type="radio" name="clean_compare" value="코팅팬보다 약간 불편" onclick="selectRadio(this)">코팅팬보다 약간 불편해요</label>
+      </div>
+    </div>
+    <hr class="divider">
+
+    <div class="field-group">
+      <label class="field-label">주로 사용하신 요리는? (중복 가능)</label>
+      <div class="check-grid" id="cook-types" style="grid-template-columns:1fr 1fr 1fr;">
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="cook_type" value="볶음·炒"><span class="box"></span>볶음요리</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="cook_type" value="구이·焼"><span class="box"></span>구이·프라이</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="cook_type" value="찌개·국"><span class="box"></span>찌개·국</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="cook_type" value="계란요리"><span class="box"></span>계란요리</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="cook_type" value="파스타·면"><span class="box"></span>파스타·면</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="cook_type" value="베이킹·오븐"><span class="box"></span>베이킹·오븐</label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">식기세척기 또는 오븐을 활용하셨나요? (중복 가능)</label>
+      <div class="check-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="appliance" value="식기세척기"><span class="box"></span>식기세척기</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="appliance" value="오븐"><span class="box"></span>오븐</label>
+        <label class="check-item" onclick="toggleCheck(event,this)" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;"><input type="checkbox" name="appliance" value="미사용"><span class="box"></span>미사용</label>
+      </div>
+    </div>
+    <hr class="divider">
+
+    <div class="field-group">
+      <label class="field-label">가장 좋았던 점</label>
+      <textarea name="pros" placeholder="예: 손잡이를 분리하니 오븐에 바로 넣을 수 있어서 편했어요. 세척도 훨씬 쉬웠습니다."></textarea>
+    </div>
+    <div class="field-group">
+      <label class="field-label">아쉬웠던 점 또는 개선 희망사항</label>
+      <textarea name="cons" placeholder="예: 계란 프라이 시 살짝 눌어붙었어요. 손잡이 체결 시 클릭감이 더 명확했으면 좋겠어요."></textarea>
+    </div>
+  </div>
+
+  <!-- 5/5 추천 의향 -->
+  <div class="card" data-section="5">
+    <div class="card-title"><span>💬</span> 추천 의향 <span class="step-badge">5 / 5</span></div>
+
+    <div class="field-group">
+      <label class="field-label">주변에 추천하실 의향이 있으신가요?</label>
+      <div class="hint">0 = 전혀 추천 안 함 &nbsp;|&nbsp; 10 = 매우 강력히 추천</div>
+      <div class="nps-row" id="nps-row">
+        <div class="nps-btn" onclick="setNPS(this,1)">1</div><div class="nps-btn" onclick="setNPS(this,2)">2</div>
+        <div class="nps-btn" onclick="setNPS(this,3)">3</div><div class="nps-btn" onclick="setNPS(this,4)">4</div>
+        <div class="nps-btn" onclick="setNPS(this,5)">5</div><div class="nps-btn" onclick="setNPS(this,6)">6</div>
+        <div class="nps-btn" onclick="setNPS(this,7)">7</div><div class="nps-btn" onclick="setNPS(this,8)">8</div>
+        <div class="nps-btn" onclick="setNPS(this,9)">9</div><div class="nps-btn" onclick="setNPS(this,10)">10</div>
+      </div>
+      <div class="nps-labels"><span>추천 안 함</span><span>적극 추천!</span></div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">재구매 의향</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+        <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="반드시 구매" onclick="selectRadio(this)">반드시 구매</label>
+        <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="아마 구매" onclick="selectRadio(this)">아마 구매</label>
+        <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="미정" onclick="selectRadio(this)">미정</label>
+        <label class="radio-btn" style="text-align:center;padding:8px 4px;"><input type="radio" name="repurchase" value="구매 안 함" onclick="selectRadio(this)">구매 안 함</label>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">자유 한마디</label>
+      <textarea name="free" placeholder="전반적인 소감, 브랜드에 전하고 싶은 메시지 등 자유롭게 작성해 주세요 😊" style="min-height:80px;"></textarea>
+    </div>
+    <hr class="divider">
+
+    <div class="field-group">
+      <label class="field-label">SNS 포스팅 링크 (선택)</label>
+      <div class="hint">인스타그램, 블로그, 유튜브 등 업로드하신 후기 링크를 남겨주세요</div>
+      <input type="text" name="sns_link" placeholder="https://www.instagram.com/...">
+    </div>
+    <div class="field-group">
+      <label class="field-label">SNS 계정 (선택)</label>
+      <input type="text" name="sns_id" placeholder="@cliclic_fan (인스타그램 아이디 등)">
+    </div>
+  </div>
+
+  <button type="button" class="submit-btn" id="submit-btn" onclick="submitReview()">✉️ 평가 제출하기</button>
+  <p style="text-align:center;font-size:14px;color:var(--text-sub);margin-top:12px;line-height:1.8;">
+    사용하면서 새로운 경험이 생기면<br>언제든 다시 후기를 남겨주세요 😊
+  </p>
+</form>
+</main>
+
+<script>
+  const IMGBB_KEY = '513bbee4591e19c01d21ee86ade9f96e';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec';
+
+  const photoData = {'preview-product':[],'preview-food':[]};
+  let npsValue = null;
+
+  function uploadToImgBB(base64, filename) {
+    return new Promise((resolve, reject) => {
+      if (!IMGBB_KEY || IMGBB_KEY.length < 10) { resolve(base64); return; }
+      const pure = base64.split(',')[1];
+      const form = new FormData();
+      form.append('key', IMGBB_KEY); form.append('image', pure); form.append('name', filename);
+      fetch('https://api.imgbb.com/1/upload', {method:'POST',body:form})
+        .then(r=>r.json()).then(d=>{if(d.success)resolve(d.data.url);else reject();}).catch(reject);
+    });
+  }
+
+  function handlePhotos(input, previewId, maxCount) {
+    const files = Array.from(input.files);
+    const existing = photoData[previewId];
+    const toAdd = files.slice(0, maxCount - existing.length);
+    toAdd.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const base64 = e.target.result;
+        const ph = {src:base64,name:file.name,uploading:true};
+        existing.push(ph);
+        renderPreviews(previewId, maxCount);
+        uploadToImgBB(base64, file.name)
+          .then(url=>{ph.src=url;ph.uploading=false;renderPreviews(previewId,maxCount);})
+          .catch(()=>{ph.uploading=false;renderPreviews(previewId,maxCount);});
+      };
+      reader.readAsDataURL(file);
+    });
+    input.value = '';
+    updateProgress();
+  }
+
+  function renderPreviews(previewId, maxCount) {
+    const container = document.getElementById(previewId);
+    const key = previewId.split('-')[1];
+    const countEl = document.getElementById('count-' + key);
+    const arr = photoData[previewId];
+    container.innerHTML = arr.map((p,i) => `
+      <div class="preview-item">
+        <img src="${p.src}" style="opacity:${p.uploading?'.4':'1'}">
+        ${p.uploading?'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:rgba(0,0,0,.4);">업로드중</div>':''}
+        <button class="remove-btn" type="button" onclick="removePhoto('${previewId}',${i},${maxCount})">✕</button>
+      </div>`).join('');
+    countEl.textContent = arr.length > 0 ? `${arr.length} / ${maxCount}장` : '';
+  }
+
+  function removePhoto(previewId, idx, maxCount) {
+    photoData[previewId].splice(idx,1);
+    renderPreviews(previewId, maxCount);
+  }
+
+  document.querySelectorAll('.photo-upload-area').forEach(area => {
+    area.addEventListener('dragover', e=>{e.preventDefault();area.style.borderColor='var(--primary)';});
+    area.addEventListener('dragleave', ()=>{area.style.borderColor='';});
+    area.addEventListener('drop', e=>{
+      e.preventDefault();area.style.borderColor='';
+      const input = area.querySelector('input[type="file"]');
+      const previewId = input.id === 'photo-product' ? 'preview-product' : 'preview-food';
+      handlePhotos({files:Array.from(e.dataTransfer.files),value:''},previewId,6);
+    });
+  });
+
+  function setStars(star) {
+    const row = star.closest('.star-row');
+    const stars = row.querySelectorAll('.stars span');
+    const idx = Array.from(stars).indexOf(star);
+    stars.forEach((s,i)=>s.classList.toggle('on',i<=idx));
+    row.querySelector('.star-score').textContent = (idx+1)+'점';
+    row.dataset.score = idx+1;
+    updateAvgScore(); updateProgress();
+  }
+
+  function updateAvgScore() {
+    const rows = document.querySelectorAll('#star-group .star-row[data-key]');
+    const scores = Array.from(rows).map(r=>parseInt(r.dataset.score)||0).filter(s=>s>0);
+    document.getElementById('avg-score').textContent = scores.length ? (scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1) : '—';
+  }
+
+  function selectRadio(input) {
+    document.querySelectorAll(`input[type="radio"][name="${input.name}"]`).forEach(r=>{
+      r.closest('.radio-btn').classList.toggle('selected', r===input);
+    });
+    updateProgress();
+  }
+
+  function toggleCheck(event, label) {
+    event.preventDefault();
+    label.classList.toggle('checked');
+    const cb = label.querySelector('input[type="checkbox"]');
+    cb.checked = label.classList.contains('checked');
+    label.querySelector('.box').textContent = cb.checked ? '✓' : '';
+  }
+
+  function setNPS(btn, val) {
+    npsValue = val;
+    document.querySelectorAll('.nps-btn').forEach((b,i)=>b.classList.toggle('selected',i===val-1));
+    updateProgress();
+  }
+
+  function updateProgress() {
+    let filled = 0;
+    if (document.querySelector('input[name="name"]').value.trim()) filled += 0.5;
+    if (document.querySelector('select[name="product"]').value) filled += 0.5;
+    if (photoData['preview-product'].length > 0) filled += 1;
+    if (document.querySelectorAll('#star-group .star-row[data-score]').length >= 4) filled += 1;
+    if (document.querySelector('textarea[name="pros"]').value.trim().length > 5) filled += 0.5;
+    if (document.querySelector('input[name="handle_use"]:checked')) filled += 0.5;
+    if (npsValue !== null) filled += 1;
+    const pct = Math.round((filled/5)*100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    const section = pct<30?1:pct<50?2:pct<70?3:pct<85?4:5;
+    const labels = ['기본 정보','사진 업로드','항목별 평가','사용 경험','추천 의향'];
+    document.getElementById('progress-label').textContent = `섹션 ${section} / 5 — ${labels[section-1]} (${pct}% 완료)`;
+  }
+
+  document.querySelectorAll('input[type="text"],select,textarea').forEach(el=>el.addEventListener('input',updateProgress));
+
+  function submitReview() {
+    const name = document.querySelector('input[name="name"]').value.trim();
+    const product = document.querySelector('select[name="product"]').value;
+    if (!name) { alert('닉네임을 입력해 주세요.'); return; }
+    if (!product) { alert('수령 제품을 선택해 주세요.'); return; }
+
+    const starRows = document.querySelectorAll('#star-group .star-row[data-key]');
+    const starData = {};
+    starRows.forEach(r=>{starData[r.dataset.key]=parseInt(r.dataset.score)||0;});
+    const scores = Object.values(starData).filter(s=>s>0);
+    const avg = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
+
+    const cookTypes = Array.from(document.querySelectorAll('input[name="cook_type"]:checked')).map(c=>c.value).join(', ');
+    const appliance = Array.from(document.querySelectorAll('input[name="appliance"]:checked')).map(c=>c.value).join(', ');
+    const photos = photoData['preview-product'].filter(p=>!p.uploading).map(p=>p.src).filter(s=>s.startsWith('http'));
+
+    const payload = {
+      timestamp: new Date().toLocaleString('ko-KR'),
+      nick: name, product,
+      duration: document.querySelector('input[name="duration"]:checked')?.value||'',
+      ss_exp: document.querySelector('input[name="ss_exp"]:checked')?.value||'',
+      stick: document.querySelector('input[name="stick_compare"]:checked')?.value||'',
+      clean: document.querySelector('input[name="clean_compare"]:checked')?.value||'',
+      handle: document.querySelector('input[name="handle_use"]:checked')?.value||'',
+      appliance, cook_types: cookTypes,
+      star_handle_attach: starData.handle_attach||0,
+      star_handle_grip: starData.handle_grip||0,
+      star_balance: starData.handle_stability||0,
+      star_surface: starData.coating||0,
+      star_heat: starData.heat||0,
+      star_clean: starData.clean||0,
+      star_design: starData.design||0,
+      star_storage: starData.storage||0,
+      avg_score: Math.round(avg*10)/10,
+      pros: document.querySelector('textarea[name="pros"]').value.trim(),
+      cons: document.querySelector('textarea[name="cons"]').value.trim(),
+      free: document.querySelector('textarea[name="free"]').value.trim(),
+      nps: npsValue||'',
+      repurchase: document.querySelector('input[name="repurchase"]:checked')?.value||'',
+      sns_link: document.querySelector('input[name="sns_link"]').value.trim(),
+      sns_id: document.querySelector('input[name="sns_id"]').value.trim(),
+      photos,
+    };
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = '제출 중...';
+
+    fetch(SHEETS_URL, {method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(()=>{});
+
+    setTimeout(()=>{
+      document.getElementById('review-form').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+      document.querySelector('.progress-wrap').style.display = 'none';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }, 800);
+  }
+
+  function resetForm() {
+    document.getElementById('review-form').reset();
+    photoData['preview-product'] = []; photoData['preview-food'] = [];
+    document.getElementById('preview-product').innerHTML = '';
+    document.getElementById('preview-food').innerHTML = '';
+    document.getElementById('count-product').textContent = '';
+    document.getElementById('count-food').textContent = '';
+    document.querySelectorAll('.stars span').forEach(s=>s.classList.remove('on'));
+    document.querySelectorAll('.star-row').forEach(r=>delete r.dataset.score);
+    document.querySelectorAll('.star-score').forEach(s=>s.textContent='-');
+    document.getElementById('avg-score').textContent = '—';
+    document.querySelectorAll('.radio-btn').forEach(b=>b.classList.remove('selected'));
+    document.querySelectorAll('.check-item').forEach(b=>{b.classList.remove('checked');b.querySelector('.box').textContent='';});
+    document.querySelectorAll('.nps-btn').forEach(b=>b.classList.remove('selected'));
+    npsValue = null;
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false; btn.textContent = '✉️ 평가 제출하기';
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('review-form').style.display = 'block';
+    document.querySelector('.progress-wrap').style.display = 'block';
+    updateProgress();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+</script>
+</body>
+</html>

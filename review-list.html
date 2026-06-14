@@ -1,0 +1,212 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리뷰 둘러보기 — CLICLIC</title>
+  <style>
+    :root {
+      --primary:#FF3B00;--primary-dark:#CC2E00;--primary-light:#FF6633;
+      --bg:#111111;--card:#1A1A1A;--border:#2E2E2E;
+      --text:#F0F0F0;--text-sub:#AAAAAA;--star-on:#FF3B00;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    header{background:var(--primary);padding:12px 20px 10px;display:flex;align-items:center;gap:12px;}
+    .back-btn{color:#fff;text-decoration:none;font-size:20px;}
+    .header-title{font-size:20px;font-weight:900;letter-spacing:2px;color:#fff;}
+    main{max-width:680px;margin:0 auto;padding:20px 16px 64px;}
+    .list-header{text-align:center;margin-bottom:16px;}
+    .list-title{font-size:20px;font-weight:800;margin-bottom:12px;}
+    .sort-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+    .sort-btn{padding:7px 14px;border:1.5px solid var(--border);border-radius:6px;background:transparent;color:var(--text-sub);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+    .sort-btn.active{border-color:var(--primary);background:var(--primary);color:#fff;}
+    .review-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:10px;cursor:pointer;transition:border-color .15s;}
+    .review-card:hover{border-color:#555;}
+    .review-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+    .review-nick{font-weight:700;font-size:15px;}
+    .review-product{font-size:12px;color:var(--text-sub);background:#222;padding:2px 8px;border-radius:4px;}
+    .review-score-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+    .review-avg{font-size:20px;font-weight:800;color:var(--primary);}
+    .review-stars{color:var(--star-on);font-size:14px;}
+    .review-date{font-size:12px;color:var(--text-sub);margin-left:auto;}
+    .review-text{font-size:14px;color:#ccc;line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+    .review-photos{display:flex;gap:6px;margin-top:8px;align-items:center;}
+    .review-thumb{width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+    .pagination{display:flex;gap:6px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+    .page-btn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:6px;background:transparent;color:var(--text-sub);font-size:14px;cursor:pointer;transition:all .15s;}
+    .page-btn:hover{border-color:var(--primary);color:var(--primary);}
+    .page-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+    .page-btn:disabled{opacity:0.3;cursor:default;}
+    .write-btn{display:block;width:100%;margin-top:20px;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;text-align:center;text-decoration:none;cursor:pointer;transition:background .2s;}
+    .write-btn:hover{background:var(--primary-dark);}
+    /* Card Detail Overlay */
+    .cd-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;overflow-y:auto;display:none;}
+    .cd-overlay.open{display:block;}
+    .cd-box{background:var(--card);border-radius:12px;max-width:560px;margin:24px auto;padding:24px 20px;}
+    .cd-close{position:sticky;top:12px;float:right;background:transparent;border:none;color:var(--text-sub);font-size:22px;cursor:pointer;line-height:1;}
+    .cd-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+    .cd-nick{font-size:17px;font-weight:800;}
+    .cd-product{font-size:12px;color:var(--text-sub);background:#222;padding:2px 10px;border-radius:4px;}
+    .cd-score{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+    .cd-avg{font-size:28px;font-weight:900;color:var(--primary);}
+    .cd-stars{color:var(--star-on);font-size:16px;}
+    .cd-date{font-size:13px;color:var(--text-sub);}
+    .cd-label{font-size:12px;font-weight:700;color:var(--primary);letter-spacing:0.5px;margin-bottom:6px;text-transform:uppercase;}
+    .cd-text{font-size:14px;color:#ddd;line-height:1.75;margin-bottom:12px;}
+    .cd-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px;}
+    .cd-photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;}
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="back-btn">←</a>
+  <div class="header-title">CLICLIC 리뷰</div>
+</header>
+
+<main>
+  <div class="list-header">
+    <div class="list-title">체험단 모아보기</div>
+    <div class="sort-bar">
+      <button class="sort-btn active" data-sort="recent" onclick="setSort(this,'recent')">최신순</button>
+      <button class="sort-btn" data-sort="rating" onclick="setSort(this,'rating')">평점순</button>
+      <button class="sort-btn" data-sort="photo" onclick="setSort(this,'photo')">사진포함</button>
+    </div>
+  </div>
+  <div id="review-list"></div>
+  <div class="pagination" id="pagination"></div>
+  <a href="review-write.html" class="write-btn">✏️ 후기 작성하기</a>
+</main>
+
+<!-- Card Detail -->
+<div class="cd-overlay" id="cd-overlay" onclick="closeDetail(event)">
+  <div class="cd-box" id="cd-box">
+    <button class="cd-close" onclick="closeDetailBtn()">✕</button>
+    <div id="cd-content"></div>
+  </div>
+</div>
+
+<script>
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec';
+  const reviews = [];
+  let currentSort = 'recent';
+  let currentPage = 1;
+  const PAGE_SIZE = 10;
+
+  function getSorted() {
+    let list = [...reviews];
+    if (currentSort === 'rating') list.sort((a,b) => b.avg - a.avg);
+    else if (currentSort === 'recent') list.sort((a,b) => new Date(b.date) - new Date(a.date));
+    else if (currentSort === 'photo') list = list.filter(r => r.hasPhoto);
+    return list;
+  }
+
+  function renderList() {
+    const list = getSorted();
+    const total = list.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const page = list.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
+    window._pageReviews = page;
+    const container = document.getElementById('review-list');
+    if (page.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:var(--text-sub);padding:40px 0;">아직 등록된 리뷰가 없습니다.</p>';
+    } else {
+      container.innerHTML = page.map((r, idx) => `
+        <div class="review-card" onclick="openDetail(${idx})">
+          <div class="review-card-top">
+            <span class="review-nick">${r.nick}</span>
+            <span class="review-product">${r.product}</span>
+          </div>
+          <div class="review-score-row">
+            <span class="review-avg">${r.avg.toFixed(1)}</span>
+            <span class="review-stars">${'★'.repeat(Math.round(r.avg))}</span>
+            <span class="review-date">${r.date}</span>
+          </div>
+          <div class="review-text">${r.pros}</div>
+          ${r.photos && r.photos.length > 0 ? `<div class="review-photos">${r.photos.slice(0,2).map(p=>`<img class="review-thumb" src="${p}" alt="리뷰사진">`).join('')}${r.photos.length>2?`<span style="font-size:12px;color:var(--text-sub);align-self:center;">+${r.photos.length-2}장</span>`:''}</div>` : ''}
+        </div>`).join('');
+    }
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    const pg = document.getElementById('pagination');
+    let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+    for (let i = 1; i <= totalPages; i++)
+      html += `<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+    html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+    pg.innerHTML = html;
+  }
+
+  function goPage(n) {
+    const list = getSorted();
+    const tp = Math.max(1, Math.ceil(list.length/PAGE_SIZE));
+    if (n < 1 || n > tp) return;
+    currentPage = n;
+    renderList();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function setSort(btn, sort) {
+    currentSort = sort; currentPage = 1;
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderList();
+  }
+
+  function openDetail(idx) {
+    const r = (window._pageReviews||[])[idx];
+    if (!r) return;
+    const photosHtml = r.photos && r.photos.length > 0
+      ? `<div class="cd-label" style="margin-top:12px;">사진</div><div class="cd-photos">${r.photos.map(p=>`<img src="${p}" onclick="window.open('${p}','_blank')">`).join('')}</div>` : '';
+    const consHtml = r.cons && r.cons !== '—'
+      ? `<div class="cd-label" style="margin-top:12px;">아쉬운 점</div><div class="cd-text">${r.cons}</div>` : '';
+    const freeHtml = r.free
+      ? `<div class="cd-label" style="margin-top:12px;">한마디</div><div class="cd-text">${r.free}</div>` : '';
+    document.getElementById('cd-content').innerHTML = `
+      <div class="cd-header">
+        <span class="cd-nick">${r.nick}</span>
+        <span class="cd-product">${r.product}</span>
+      </div>
+      <div class="cd-score">
+        <span class="cd-avg">${r.avg.toFixed(1)}</span>
+        <span class="cd-stars">${'★'.repeat(Math.round(r.avg))}</span>
+        <span class="cd-date">${r.date}</span>
+      </div>
+      <div class="cd-label">가장 좋았던 점</div>
+      <div class="cd-text">${r.pros||'—'}</div>
+      ${photosHtml}${consHtml}${freeHtml}`;
+    document.getElementById('cd-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetail(e) {
+    if (e.target === document.getElementById('cd-overlay')) closeDetailBtn();
+  }
+  function closeDetailBtn() {
+    document.getElementById('cd-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function loadReviews() {
+    const cbName = '_cb_' + Date.now();
+    const script = document.createElement('script');
+    window[cbName] = function(data) {
+      if (Array.isArray(data) && data.length > 0) {
+        reviews.length = 0;
+        data.forEach(r => reviews.push(r));
+        renderList();
+      }
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    script.src = SHEETS_URL + '?callback=' + cbName;
+    script.onerror = function() { delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); };
+    document.head.appendChild(script);
+  }
+
+  renderList();
+  window.addEventListener('load', function() { try { loadReviews(); } catch(e) {} });
+</script>
+</body>
+</html>
