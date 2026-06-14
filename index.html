@@ -147,7 +147,8 @@
     .nav-btn.full-width {
       grid-column: 1 / -1;
     }
-    .nav-row.center { justify-content: center; }
+    .nav-row.center { display: flex; justify-content: center; }
+    .nav-row.center .nav-btn { width: calc(50% - clamp(3px, 0.6vh, 5px)); }
   </style>
 </head>
 <body>

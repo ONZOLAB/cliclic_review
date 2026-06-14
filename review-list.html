@@ -192,21 +192,22 @@
     const cbName = '_cb_' + Date.now();
     const script = document.createElement('script');
     window[cbName] = function(data) {
-      if (Array.isArray(data) && data.length > 0) {
-        reviews.length = 0;
-        data.forEach(r => reviews.push(r));
-        renderList();
-      }
+      reviews.length = 0;
+      if (Array.isArray(data)) data.forEach(r => reviews.push(r));
+      renderList();
       delete window[cbName];
       if (script.parentNode) script.parentNode.removeChild(script);
     };
     script.src = SHEETS_URL + '?callback=' + cbName;
-    script.onerror = function() { delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); };
+    script.onerror = function() {
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      renderList();
+    };
     document.head.appendChild(script);
   }
 
-  renderList();
-  window.addEventListener('load', function() { try { loadReviews(); } catch(e) {} });
+  window.addEventListener('load', function() { try { loadReviews(); } catch(e) { renderList(); } });
 </script>
 </body>
 </html>

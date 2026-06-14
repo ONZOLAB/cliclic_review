@@ -100,7 +100,7 @@
 <body>
 <header>
   <a href="index.html" class="back-btn">←</a>
-  <div class="header-title">CLICLIC 리뷰 작성</div>
+  <div class="header-title">CLICLIC</div>
 </header>
 
 <div class="progress-wrap">
@@ -289,7 +289,7 @@
 
     <div class="field-group">
       <label class="field-label">주변에 추천하실 의향이 있으신가요?</label>
-      <div class="hint">0 = 전혀 추천 안 함 &nbsp;|&nbsp; 10 = 매우 강력히 추천</div>
+      <div class="hint">1 = 전혀 추천 안 함 &nbsp;|&nbsp; 10 = 매우 강력히 추천</div>
       <div class="nps-row" id="nps-row">
         <div class="nps-btn" onclick="setNPS(this,1)">1</div><div class="nps-btn" onclick="setNPS(this,2)">2</div>
         <div class="nps-btn" onclick="setNPS(this,3)">3</div><div class="nps-btn" onclick="setNPS(this,4)">4</div>
@@ -472,7 +472,10 @@
 
     const cookTypes = Array.from(document.querySelectorAll('input[name="cook_type"]:checked')).map(c=>c.value).join(', ');
     const appliance = Array.from(document.querySelectorAll('input[name="appliance"]:checked')).map(c=>c.value).join(', ');
-    const photos = photoData['preview-product'].filter(p=>!p.uploading).map(p=>p.src).filter(s=>s.startsWith('http'));
+    const photos = [
+      ...photoData['preview-product'].filter(p=>!p.uploading).map(p=>p.src).filter(s=>s.startsWith('http')),
+      ...photoData['preview-food'].filter(p=>!p.uploading).map(p=>p.src).filter(s=>s.startsWith('http'))
+    ];
 
     const payload = {
       timestamp: new Date().toLocaleString('ko-KR'),
