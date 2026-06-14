@@ -1,0 +1,129 @@
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스토리 — CLICLIC</title>
+  <style>
+    :root {
+      --primary: #FF3B00; --primary-dark: #CC2E00; --primary-light: #FF6633;
+      --bg: #111111; --card: #1A1A1A; --border: #2E2E2E;
+      --text: #F0F0F0; --text-sub: #AAAAAA;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    header { background: var(--primary); padding: 12px 20px 10px; display: flex; align-items: center; gap: 12px; }
+    .back-btn { color: #fff; text-decoration: none; font-size: 20px; }
+    .header-title { font-size: 20px; font-weight: 900; letter-spacing: 2px; color: #fff; }
+    main { max-width: 600px; margin: 0 auto; padding: 28px 20px 64px; }
+    .hero {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 28px 24px; margin-bottom: 24px; text-align: center;
+    }
+    .hero-label { font-size: 12px; color: var(--primary); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 10px; }
+    .hero-title { font-size: 24px; font-weight: 900; line-height: 1.4; margin-bottom: 12px; }
+    .hero-desc { font-size: 14px; color: var(--text-sub); line-height: 1.8; }
+    .section-label { font-size: 12px; font-weight: 700; color: var(--primary); margin: 24px 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+      width: 2px; background: var(--border);
+    }
+    .tl-item { position: relative; margin-bottom: 20px; }
+    .tl-dot {
+      position: absolute; left: -28px; top: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--primary); border: 2px solid var(--bg);
+    }
+    .tl-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .tl-desc { font-size: 14px; color: var(--text-sub); line-height: 1.75; }
+    /* 설계 가치 - 아이콘/박스 없는 리스트 */
+    .value-list { display: flex; flex-direction: column; }
+    .value-item { padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .value-item:first-child { border-top: 1px solid var(--border); }
+    .value-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .value-desc { font-size: 14px; color: var(--text-sub); line-height: 1.75; }
+    .quote {
+      border-left: 3px solid var(--primary); padding: 12px 18px;
+      background: var(--card); border-radius: 0 8px 8px 0; margin: 20px 0;
+      font-size: 14px; line-height: 1.8; color: #ddd; font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="back-btn">&#8592;</a>
+  <div class="header-title">CLICLIC</div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-label">BRAND STORY</div>
+    <div class="hero-title">불편함에서 시작된<br>CLICLIC</div>
+    <div class="hero-desc">
+      코팅은 벗겨지고, 손잡이에 음식이 묻고, 팬을 씻기 힘들고,
+      보관할 공간이 없는 불편함은 요리를 번거롭게 만들었습니다.
+      CLICLIC은 그 불편함을 하나씩 해결하고자 합니다.
+    </div>
+  </div>
+
+  <div class="quote">
+    "제가 불편해서 만들었고, 여러분의 불편함으로 더 좋아집니다."<br>
+    &#8212; 클릭클릭 드림
+  </div>
+
+  <p class="section-label">개발 과정</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">문제 정의</div>
+      <div class="tl-desc">기존 손잡이 일체형 쿡웨어의 불편함 &#8212; 세척 난이도, 수납 공간 부족, 오븐 활용 불가, 팬과 함께 버려지는 손잡이 &#8212; 을 핵심 문제로 정의했습니다.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">구조 설계</div>
+      <div class="tl-desc">원터치 탈부착 메커니즘을 설계하면서 내구성과 조작 편의성을 동시에 확보하는 것이 가장 큰 과제였습니다.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">소재 선택</div>
+      <div class="tl-desc">프리미엄 라인업에 사용되는 스테인리스 316 소재를 적용하고, 베이스에 표면 경화 처리를 더해 기존 스테인리스 대비 눌어붙음을 대폭 줄였습니다.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">반복 개선</div>
+      <div class="tl-desc">수십 회의 시제품 테스트와 실제 사용자 피드백을 통해 체결 강도, 무게 균형, 그립감을 지속적으로 최적화하고 있습니다.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">체험단 출시</div>
+      <div class="tl-desc">완성도를 높이기 위해 체험단을 모집해 실사용 데이터를 수집 중입니다. 여러분의 후기가 다음 CLICLIC을 만듭니다.</div>
+    </div>
+  </div>
+
+  <p class="section-label">설계 가치</p>
+  <div class="value-list">
+    <div class="value-item">
+      <div class="value-title">멀티팬 하나로</div>
+      <div class="value-desc">고기를 굽고, 찌개를 끓이고, 전을 부치는 다양한 활용성.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-title">원터치 탈부착</div>
+      <div class="value-desc">끼워 걸리는 간단한 구조. 이동 시 흔들림 없는 견고한 체결.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-title">지속 가능성</div>
+      <div class="value-desc">코팅 교체 없이 오래 쓰는 스테인리스 소재. 지구와 사람 모두를 위한 선택.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-title">세척 편의성</div>
+      <div class="value-desc">손잡이 분리로 구석구석 세척. 식기세척기 사용도 가능.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-title">수납의 장점</div>
+      <div class="value-desc">손잡이 분리 시 세워서 보관 가능. 공간 효율 극대화.</div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
