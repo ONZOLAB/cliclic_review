@@ -19,8 +19,10 @@
       font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background: #000;
       color: var(--text);
+      /* PC: 스크롤 허용 / 모바일: 뷰포트에 맞게 고정 */
       overflow-y: auto;
     }
+    /* PC 기준: 1100px 고정 카드 */
     .page {
       display: flex;
       flex-direction: column;
@@ -50,7 +52,7 @@
       letter-spacing: 0.5px;
       margin-top: 1px;
     }
-    /* 이미지 영역 — 600×600 원본 비율 유지 */
+    /* 이미지 영역 — PC: 600px 고정 / 모바일: 유연 */
     .img-area {
       width: 100%;
       height: 600px;
@@ -95,6 +97,21 @@
       flex-direction: column;
       gap: clamp(6px, 1.2vh, 10px);
       background: var(--bg);
+    }
+    /* ── 모바일: 뷰포트 100%에 전체 맞춤 ── */
+    @media (max-width: 600px) {
+      html, body { overflow: hidden; }
+      .page {
+        height: 100dvh;
+      }
+      .img-area {
+        flex: 1 1 0;       /* 남은 공간을 이미지가 채움 */
+        height: auto;
+        min-height: 0;
+        flex-shrink: 1;
+      }
+      .msg-text { font-size: 13px; line-height: 1.55; }
+      .msg-sign  { font-size: 13px; }
     }
     .nav-row {
       display: grid;
