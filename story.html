@@ -22,7 +22,9 @@
     .hero-label { font-size: 12px; color: var(--primary); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 10px; }
     .hero-title { font-size: 24px; font-weight: 900; line-height: 1.4; margin-bottom: 12px; }
     .hero-desc { font-size: 14px; color: var(--text-sub); line-height: 1.8; }
-    .section-label { font-size: 12px; font-weight: 700; color: var(--primary); margin: 24px 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+    /* section-label: tl-title(15px)보다 1pt 크게 */
+    .section-label { font-size: 16px; font-weight: 700; color: var(--primary); margin: 24px 0 12px; letter-spacing: 0.3px; }
+    /* 타임라인 — 개발과정 & 설계가치 공통 */
     .timeline { position: relative; padding-left: 28px; }
     .timeline::before {
       content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
@@ -36,17 +38,6 @@
     }
     .tl-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
     .tl-desc { font-size: 14px; color: var(--text-sub); line-height: 1.75; }
-    /* 설계 가치 - 아이콘/박스 없는 리스트 */
-    .value-list { display: flex; flex-direction: column; }
-    .value-item { padding: 14px 0; border-bottom: 1px solid var(--border); }
-    .value-item:first-child { border-top: 1px solid var(--border); }
-    .value-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .value-desc { font-size: 14px; color: var(--text-sub); line-height: 1.75; }
-    .quote {
-      border-left: 3px solid var(--primary); padding: 12px 18px;
-      background: var(--card); border-radius: 0 8px 8px 0; margin: 20px 0;
-      font-size: 14px; line-height: 1.8; color: #ddd; font-style: italic;
-    }
   </style>
 </head>
 <body>
@@ -64,11 +55,6 @@
       보관할 공간이 없는 불편함은 요리를 번거롭게 만들었습니다.
       CLICLIC은 그 불편함을 하나씩 해결하고자 합니다.
     </div>
-  </div>
-
-  <div class="quote">
-    "제가 불편해서 만들었고, 여러분의 불편함으로 더 좋아집니다."<br>
-    &#8212; 클릭클릭 드림
   </div>
 
   <p class="section-label">개발 과정</p>
@@ -101,26 +87,31 @@
   </div>
 
   <p class="section-label">설계 가치</p>
-  <div class="value-list">
-    <div class="value-item">
-      <div class="value-title">멀티팬 하나로</div>
-      <div class="value-desc">고기를 굽고, 찌개를 끓이고, 전을 부치는 다양한 활용성.</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">멀티팬 하나로</div>
+      <div class="tl-desc">고기를 굽고, 찌개를 끓이고, 전을 부치는 다양한 활용성.</div>
     </div>
-    <div class="value-item">
-      <div class="value-title">원터치 탈부착</div>
-      <div class="value-desc">끼워 걸리는 간단한 구조. 이동 시 흔들림 없는 견고한 체결.</div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">원터치 탈부착</div>
+      <div class="tl-desc">끼워 걸리는 간단한 구조. 이동 시 흔들림 없는 견고한 체결.</div>
     </div>
-    <div class="value-item">
-      <div class="value-title">지속 가능성</div>
-      <div class="value-desc">코팅 교체 없이 오래 쓰는 스테인리스 소재. 지구와 사람 모두를 위한 선택.</div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">지속 가능성</div>
+      <div class="tl-desc">코팅 교체 없이 오래 쓰는 스테인리스 소재. 지구와 사람 모두를 위한 선택.</div>
     </div>
-    <div class="value-item">
-      <div class="value-title">세척 편의성</div>
-      <div class="value-desc">손잡이 분리로 구석구석 세척. 식기세척기 사용도 가능.</div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">세척 편의성</div>
+      <div class="tl-desc">손잡이 분리로 구석구석 세척. 식기세척기 사용도 가능.</div>
     </div>
-    <div class="value-item">
-      <div class="value-title">수납의 장점</div>
-      <div class="value-desc">손잡이 분리 시 세워서 보관 가능. 공간 효율 극대화.</div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-title">수납의 장점</div>
+      <div class="tl-desc">손잡이 분리 시 세워서 보관 가능. 공간 효율 극대화.</div>
     </div>
   </div>
 
