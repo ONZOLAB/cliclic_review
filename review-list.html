@@ -88,6 +88,13 @@
 <script>
   const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyClvDiVBTV131CZ-KnRja1E7nOR3-xLWLBaigyeKMBLeLQDVZ9L4LLjqKuqfnNzbpG/exec';
   const reviews = [];
+
+  // wsrv.nl 프록시로 썸네일 크기 축소 (120×120 WebP)
+  function thumbUrl(url) {
+    if (!url || !url.startsWith('http')) return url;
+    const stripped = url.replace(/^https?:\/\//, '');
+    return `https://wsrv.nl/?url=${stripped}&w=120&h=120&fit=cover&output=webp`;
+  }
   let currentSort = 'recent';
   let currentPage = 1;
   const PAGE_SIZE = 10;
@@ -123,7 +130,7 @@
             <span class="review-date">${r.date}</span>
           </div>
           <div class="review-text">${r.pros}</div>
-          ${r.photos && r.photos.length > 0 ? `<div class="review-photos">${r.photos.slice(0,2).map(p=>`<img class="review-thumb" src="${p}" alt="리뷰사진">`).join('')}${r.photos.length>2?`<span style="font-size:12px;color:var(--text-sub);align-self:center;">+${r.photos.length-2}장</span>`:''}</div>` : ''}
+          ${r.photos && r.photos.length > 0 ? `<div class="review-photos">${r.photos.slice(0,2).map(p=>`<img class="review-thumb" src="${thumbUrl(p)}" alt="리뷰사진" loading="lazy">`).join('')}${r.photos.length>2?`<span style="font-size:12px;color:var(--text-sub);align-self:center;">+${r.photos.length-2}장</span>`:''}</div>` : ''}
         </div>`).join('');
     }
     renderPagination(totalPages);
